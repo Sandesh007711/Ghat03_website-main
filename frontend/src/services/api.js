@@ -17,6 +17,22 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Response interceptor to handle deactivated users
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 403 && 
+        error.response?.data?.message?.includes('deactivated')) {
+      // Clear authentication data
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      // Redirect to login page
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const loginUser = async (credentials) => {
   try {
     const response = await api.post('/users/login', credentials);
@@ -29,6 +45,15 @@ export const loginUser = async (credentials) => {
 export const logoutUser = async () => {
   try {
     const response = await api.get('/users/logout');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const checkUserStatus = async () => {
+  try {
+    const response = await api.get('/users/me');
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

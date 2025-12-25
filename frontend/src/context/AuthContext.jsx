@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { checkUserStatus } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -16,6 +17,28 @@ export const AuthProvider = ({ children }) => {
     }
     setLoading(false);
   }, []);
+
+  // Periodic check for user status (every 5 seconds)
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const checkStatus = async () => {
+      try {
+        await checkUserStatus();
+      } catch (error) {
+        // If 403 or deactivated, the interceptor will handle redirect
+        // This is just to trigger the check
+      }
+    };
+
+    // Check immediately
+    checkStatus();
+
+    // Then check every 5 seconds
+    const interval = setInterval(checkStatus, 5000);
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
 
   const login = (userData) => {
     if (!userData || !userData.role) {
