@@ -23,11 +23,14 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 403 && 
         error.response?.data?.message?.includes('deactivated')) {
-      // Clear authentication data
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      // Redirect to login page
-      window.location.href = '/login';
+      // Don't redirect if this is a login attempt - let the login page show the error
+      if (!error.config?.url?.includes('/login')) {
+        // Clear authentication data
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        // Redirect to login page
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }
