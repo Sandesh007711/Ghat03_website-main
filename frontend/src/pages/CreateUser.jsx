@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FaEdit, FaTrash, FaTimes, FaCheckCircle, FaSpinner } from 'react-icons/fa';
-import { getUsers, createUser, updateUser, deleteUser } from '../services/api';
+import { getUsers, createUser, updateUser, deleteUser, activateUser, deactivateUser } from '../services/api';
 
 const CreateUser = () => {
   // Add new ref for the form container
@@ -30,12 +30,16 @@ const CreateUser = () => {
   // Add new state for delete confirmation
   const [deleteConfirm, setDeleteConfirm] = useState({ show: false, index: null, id: null });
 
+  // Add new state for toggle confirmation
+  const [toggleConfirm, setToggleConfirm] = useState({ show: false, user: null });
+
   // Add new state for API loading and error
   const [isLoading, setIsLoading] = useState(true);
 
   // Add new loading states
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeletingUser, setIsDeletingUser] = useState(false);
+  const [togglingUserId, setTogglingUserId] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -206,6 +210,31 @@ const CreateUser = () => {
     });
   };
 
+  const handleToggleActive = async (user) => {
+    setToggleConfirm({ show: true, user });
+  };
+
+  const confirmToggleActive = async () => {
+    const user = toggleConfirm.user;
+    setTogglingUserId(user._id);
+    setToggleConfirm({ show: false, user: null });
+    
+    try {
+      if (user.active) {
+        await deactivateUser(user._id);
+        showSuccess('User deactivated successfully!');
+      } else {
+        await activateUser(user._id);
+        showSuccess('User activated successfully!');
+      }
+      await fetchUsers();
+    } catch (error) {
+      showError(error.message || 'Failed to update user status');
+    } finally {
+      setTogglingUserId(null);
+    }
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (passwordRef.current && !passwordRef.current.contains(event.target)) {
@@ -227,21 +256,45 @@ const CreateUser = () => {
       <td className="py-3 px-4 whitespace-nowrap">{user.rawPassword}</td>
       <td className="py-3 px-4 whitespace-nowrap">{user.route}</td>
       <td className="py-3 px-4">
-        <div className="flex flex-col sm:flex-row gap-2">
-          <button
-            onClick={() => handleEdit(index)}
-            className="w-full sm:w-auto bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-600 hover:to-yellow-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
-          >
-            <FaEdit className="mr-1" />
-            Edit
-          </button>
-          <button
-            onClick={() => handleDelete(user)}
-            className="w-full sm:w-auto bg-gradient-to-r from-red-400 to-red-600 hover:from-red-600 hover:to-red-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
-          >
-            <FaTrash className="mr-1" />
-            Delete
-          </button>
+        <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+          <div className="flex gap-2">
+            <button
+              onClick={() => handleEdit(index)}
+              className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-600 hover:to-yellow-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
+            >
+              <FaEdit className="mr-1" />
+              Edit
+            </button>
+            <button
+              onClick={() => handleDelete(user)}
+              className="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-600 hover:to-red-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
+            >
+              <FaTrash className="mr-1" />
+              Delete
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`text-sm font-medium ${user.active ? 'text-green-600' : 'text-red-600'}`}>
+              {user.active ? 'Active' : 'Inactive'}
+            </span>
+            <button
+              onClick={() => handleToggleActive(user)}
+              disabled={togglingUserId === user._id}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+                user.active ? 'bg-green-500' : 'bg-gray-300'
+              } ${togglingUserId === user._id ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  user.active ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              >
+                {togglingUserId === user._id && (
+                  <FaSpinner className="animate-spin text-gray-400 text-xs" />
+                )}
+              </span>
+            </button>
+          </div>
         </div>
       </td>
     </tr>
@@ -303,6 +356,41 @@ const CreateUser = () => {
                 ) : (
                   'Delete'
                 )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Toggle Status Confirmation Popup */}
+      {toggleConfirm.show && toggleConfirm.user && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+            <h2 className="text-xl font-bold mb-4">Confirm Status Change</h2>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to {toggleConfirm.user.active ? 'deactivate' : 'activate'} this user?
+              {toggleConfirm.user.active && (
+                <span className="block mt-2 text-red-600 font-semibold">
+                  The user will be logged out immediately and won't be able to login until reactivated.
+                </span>
+              )}
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setToggleConfirm({ show: false, user: null })}
+                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmToggleActive}
+                className={`px-4 py-2 text-white rounded transition-colors flex items-center ${
+                  toggleConfirm.user.active 
+                    ? 'bg-red-500 hover:bg-red-600' 
+                    : 'bg-green-500 hover:bg-green-600'
+                }`}
+              >
+                {toggleConfirm.user.active ? 'Deactivate' : 'Activate'}
               </button>
             </div>
           </div>

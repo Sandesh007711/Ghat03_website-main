@@ -119,6 +119,24 @@ export const deleteUser = async (userId) => {
   }
 };
 
+export const activateUser = async (userId) => {
+  try {
+    const response = await api.patch(`/users/${userId}/activate`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const deactivateUser = async (userId) => {
+  try {
+    const response = await api.patch(`/users/${userId}/deactivate`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
 export const getTokens = async (limit = 1000) => {
   try {
     const response = await api.get(`/tokens?limit=${limit}`);
