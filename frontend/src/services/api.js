@@ -17,6 +17,26 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Response interceptor to handle locked users
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 403 && 
+        (error.response?.data?.message?.includes('deactivated') || 
+         error.response?.data?.message?.includes('locked'))) {
+      // Don't redirect if this is a login attempt - let the login page show the error
+      if (!error.config?.url?.includes('/login')) {
+        // Clear authentication data
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        // Redirect to login page
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const loginUser = async (credentials) => {
   try {
     const response = await api.post('/users/login', credentials);
@@ -29,6 +49,15 @@ export const loginUser = async (credentials) => {
 export const logoutUser = async () => {
   try {
     const response = await api.get('/users/logout');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const checkUserStatus = async () => {
+  try {
+    const response = await api.get('/users/me');
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -88,6 +117,24 @@ export const updateUser = async (userId, userData) => {
 export const deleteUser = async (userId) => {
   try {
     const response = await api.delete(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const activateUser = async (userId) => {
+  try {
+    const response = await api.patch(`/users/${userId}/activate`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const deactivateUser = async (userId) => {
+  try {
+    const response = await api.patch(`/users/${userId}/deactivate`);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 // get all users
 exports.getAllUsers = catchAsync(async (req, res) => {
     const totalCount = await User.countDocuments({role: 'operator'});
-    const features = new APIfeatures(User.find({role: 'operator'}), req.query)
+    const features = new APIfeatures(User.find({role: 'operator'}).select('+active'), req.query)
                     .sort()
                     .paginate()
 
@@ -20,6 +20,20 @@ exports.getAllUsers = catchAsync(async (req, res) => {
         data,
         totalCount
     })
+});
+
+// get current logged-in user
+exports.getCurrentUser = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.user._id).select('+active');
+    
+    if(!user) return next(new AppError('User not found', 404));
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
+    });
 });
 
 // create user
@@ -47,7 +61,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
 // get user detail
 exports.getUser = catchAsync(async(req, res, next) => {
     const { id } = req.params;
-    const user = await User.findOne({_id: id}, { passwordUpdatedAt: 0, __v: 0 })
+    const user = await User.findOne({_id: id}, { passwordUpdatedAt: 0, __v: 0 }).select('+active')
 
     if(!user) return next(new AppError('We could not identify the user', 400))
 
@@ -87,3 +101,35 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 
 // delete user
 exports.deleteUser = factory.deleteOne(User);
+
+// activate user
+exports.activateUser = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const user = await User.findById(id).select('+active');
+
+    if(!user) return next(new AppError('User not found!', 404));
+
+    user.active = true;
+    await user.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        status: 'success',
+        message: 'User has been unlocked successfully'
+    });
+});
+
+// deactivate user
+exports.deactivateUser = catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+    const user = await User.findById(id).select('+active');
+
+    if(!user) return next(new AppError('User not found!', 404));
+
+    user.active = false;
+    await user.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+        status: 'success',
+        message: 'User has been locked successfully'
+    });
+});

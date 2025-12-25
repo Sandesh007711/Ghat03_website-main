@@ -42,11 +42,17 @@ exports.login = catchAsync(async (req, res, next) => {
 
     if(!phone || !password) return next(new AppError('Pleas provide phone and password', 400))
 
-    const user = await User.findOne({phone}).select('+password')
+    const user = await User.findOne({phone}).select('+password +active')
 
     if(!user || !(await user.correctPassword(password, user.password))) {
         return next(new AppError('Your credentials do not match', 401))
     }
+
+    // Check if user is active
+    if(user.active === false) {
+        return next(new AppError('Your account has been locked. Please contact administrator.', 403))
+    }
+
     createSendToken(user, 200, res)
 })
 
@@ -79,12 +85,17 @@ exports.protect = catchAsync(async (req, res, next) => {
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
 
     // 3. Check if the user still exists
-    const existUser = await User.findById(decoded.id)
+    const existUser = await User.findById(decoded.id).select('+active')
     if(!existUser) {
         return next(new AppError('User belonging to the token dos not exists', 401))
     }
 
-    // 4. check if user chanegs password after the token was issues
+    // 4. Check if user account is active
+    if(existUser.active === false) {
+        return next(new AppError('Your account has been locked. Please contact administrator.', 403))
+    }
+
+    // 5. check if user chanegs password after the token was issues
     // if(existUser.changePasswordAfter(decoded.iat)) {
     //     return next(new AppError('User recently chnaged password! Please login again', 401))
     // }

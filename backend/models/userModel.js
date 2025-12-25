@@ -82,11 +82,13 @@ userSchema.pre('save', function(next) {
     next();
 })
 
-userSchema.pre(/^find/, function(next) {
-    // this points to the current query
-    this.find({ active: { $ne: false } });
-    next();
-});
+// Commented out to allow viewing and managing locked users
+// Only login is blocked for inactive users
+// userSchema.pre(/^find/, function(next) {
+//     // this points to the current query
+//     this.find({ active: { $ne: false } });
+//     next();
+// });
 
 userSchema.methods.correctPassword = async function(candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword)
