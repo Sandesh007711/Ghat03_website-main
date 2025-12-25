@@ -275,7 +275,14 @@ const CreateUser = () => {
           </div>
           <div className="flex items-center gap-2">
             <span className={`text-sm font-medium ${user.active ? 'text-green-600' : 'text-red-600'}`}>
-              {user.active ? 'Unlocked' : 'Locked'}
+              {togglingUserId === user._id ? (
+                <span className="flex items-center">
+                  <FaSpinner className="animate-spin mr-1" />
+                  {user.active ? 'Locking...' : 'Unlocking...'}
+                </span>
+              ) : (
+                user.active ? 'Unlocked' : 'Locked'
+              )}
             </span>
             <button
               onClick={() => handleToggleActive(user)}
@@ -284,15 +291,17 @@ const CreateUser = () => {
                 user.active ? 'bg-green-500' : 'bg-gray-300'
               } ${togglingUserId === user._id ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  user.active ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              >
-                {togglingUserId === user._id && (
-                  <FaSpinner className="animate-spin text-gray-400 text-xs" />
-                )}
-              </span>
+              {togglingUserId === user._id ? (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <FaSpinner className="animate-spin text-white text-sm" />
+                </div>
+              ) : (
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    user.active ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              )}
             </button>
           </div>
         </div>
