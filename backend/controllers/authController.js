@@ -50,7 +50,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
     // Check if user is active
     if(user.active === false) {
-        return next(new AppError('Your account has been deactivated. Please contact administrator.', 403))
+        return next(new AppError('Your account has been locked. Please contact administrator.', 403))
     }
 
     createSendToken(user, 200, res)
@@ -92,7 +92,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     // 4. Check if user account is active
     if(existUser.active === false) {
-        return next(new AppError('Your account has been deactivated. Please contact administrator.', 403))
+        return next(new AppError('Your account has been locked. Please contact administrator.', 403))
     }
 
     // 5. check if user chanegs password after the token was issues

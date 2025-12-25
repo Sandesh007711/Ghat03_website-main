@@ -222,10 +222,10 @@ const CreateUser = () => {
     try {
       if (user.active) {
         await deactivateUser(user._id);
-        showSuccess('User deactivated successfully!');
+        showSuccess('User locked successfully!');
       } else {
         await activateUser(user._id);
-        showSuccess('User activated successfully!');
+        showSuccess('User unlocked successfully!');
       }
       await fetchUsers();
     } catch (error) {
@@ -275,7 +275,7 @@ const CreateUser = () => {
           </div>
           <div className="flex items-center gap-2">
             <span className={`text-sm font-medium ${user.active ? 'text-green-600' : 'text-red-600'}`}>
-              {user.active ? 'Active' : 'Inactive'}
+              {user.active ? 'Unlocked' : 'Locked'}
             </span>
             <button
               onClick={() => handleToggleActive(user)}
@@ -368,10 +368,10 @@ const CreateUser = () => {
           <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
             <h2 className="text-xl font-bold mb-4">Confirm Status Change</h2>
             <p className="text-gray-600 mb-6">
-              Are you sure you want to {toggleConfirm.user.active ? 'deactivate' : 'activate'} this user?
+              Are you sure you want to {toggleConfirm.user.active ? 'lock' : 'unlock'} this user?
               {toggleConfirm.user.active && (
                 <span className="block mt-2 text-red-600 font-semibold">
-                  The user will be logged out immediately and won't be able to login until reactivated.
+                  The user will be logged out immediately and won't be able to login until unlocked.
                 </span>
               )}
             </p>
@@ -390,7 +390,7 @@ const CreateUser = () => {
                     : 'bg-green-500 hover:bg-green-600'
                 }`}
               >
-                {toggleConfirm.user.active ? 'Deactivate' : 'Activate'}
+                {toggleConfirm.user.active ? 'Lock' : 'Unlock'}
               </button>
             </div>
           </div>

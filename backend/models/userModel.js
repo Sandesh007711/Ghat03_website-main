@@ -82,7 +82,7 @@ userSchema.pre('save', function(next) {
     next();
 })
 
-// Commented out to allow viewing and managing deactivated users
+// Commented out to allow viewing and managing locked users
 // Only login is blocked for inactive users
 // userSchema.pre(/^find/, function(next) {
 //     // this points to the current query

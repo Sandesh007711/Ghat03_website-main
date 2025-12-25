@@ -114,7 +114,7 @@ exports.activateUser = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        message: 'User has been activated successfully'
+        message: 'User has been unlocked successfully'
     });
 });
 
@@ -130,6 +130,6 @@ exports.deactivateUser = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        message: 'User has been deactivated successfully'
+        message: 'User has been locked successfully'
     });
 });

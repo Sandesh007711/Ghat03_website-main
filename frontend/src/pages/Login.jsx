@@ -98,7 +98,7 @@ const Login = () => {
     } catch (err) {
       console.error('Login error:', err);
       // Check if it's a deactivation error and show it prominently
-      if (err.message?.includes('deactivated')) {
+      if (err.message?.includes('deactivated') || err.message?.includes('locked')) {
         setError('⚠️ ' + err.message);
       } else {
         setError(err.message || 'Login failed. Please check your credentials.');

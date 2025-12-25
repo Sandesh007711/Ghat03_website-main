@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       try {
         await checkUserStatus();
       } catch (error) {
-        // If 403 or deactivated, the interceptor will handle redirect
+        // If 403 or locked, the interceptor will handle redirect
         // This is just to trigger the check
       }
     };

@@ -17,12 +17,13 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor to handle deactivated users
+// Response interceptor to handle locked users
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 403 && 
-        error.response?.data?.message?.includes('deactivated')) {
+        (error.response?.data?.message?.includes('deactivated') || 
+         error.response?.data?.message?.includes('locked'))) {
       // Don't redirect if this is a login attempt - let the login page show the error
       if (!error.config?.url?.includes('/login')) {
         // Clear authentication data
