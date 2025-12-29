@@ -18,9 +18,18 @@ const userTokenRouter = require('./routes/userTokenRoutes');
 const app = express();
 
 // CORS Configuration - Must be before other middleware
+// CORS Configuration - Must be before other middleware
+const allowedOrigins = [
+  'http://localhost:5175',
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://yourdomain.com',
+  'https://www.yourdomain.com'
+];
+
 app.use(
   cors({
-    origin: 'http://localhost:5175',
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
     allowedHeaders: [
@@ -33,9 +42,12 @@ app.use(
   })
 );
 
-// Add CORS headers middleware
+// Update the manual CORS headers middleware to handle multiple origins
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5175');
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Credentials', true);
   res.header(
     'Access-Control-Allow-Methods',
