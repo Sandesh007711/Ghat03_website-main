@@ -117,13 +117,13 @@ const Nav = () => {
           <div className="flex items-center gap-2">
             <img
               src={logo}
-              alt="Ramjee Singh & Co Logo"
+              alt="KOCHAS POWER PVT. LTD.Logo"
               className="h-[60px] w-[60px] sm:h-[70px] sm:w-[70px] md:h-[80px] md:w-[80px] lg:h-[90px] lg:w-[90px] rounded-full"
             />
-          
+
             <Link to="/" className="ml-2 sm:ml-3 md:ml-4 lg:ml-5">
               <h1 className="text-[#EBF4DD] text-sm sm:text-xl md:text-2xl lg:text-3xl font-bold rounded-xl px-2 transition-transform duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#3B4953]">
-                Ramjee Singh And Co.
+                KOCHAS POWER PVT. LTD
               </h1>
             </Link>
           </div>
@@ -207,16 +207,16 @@ const Nav = () => {
                 <IoMdClose className="text-2xl" />
               </button>
             </div>
-            
+
             <div className="space-y-6">
               <div className="p-6 bg-gradient-to-r from-[#EBF4DD] to-white rounded-lg shadow-md border border-[#90AB8B]">
                 <div className="flex items-center gap-3 mb-3">
                   <BsBuilding className="text-2xl text-[#5A7863]" />
                   <h3 className="font-semibold text-[#3B4953] text-xl">Company</h3>
                 </div>
-                <p className="text-[#5A7863] text-lg font-medium pl-9">Vashudev</p>
+                <p className="text-[#5A7863] text-lg font-medium pl-9">KJTECH SOLUTIONS</p>
               </div>
-              
+
               <div className="p-6 bg-gradient-to-r from-[#EBF4DD] to-white rounded-lg shadow-md border border-[#90AB8B]">
                 <div className="flex items-center gap-3 mb-4">
                   <FaPhoneAlt className="text-2xl text-[#5A7863]" />

@@ -23,10 +23,10 @@ const OperatorDashboard = () => {
       </div>
 
       <footer className="bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] border-t-2 border-[#90AB8B] py-3 px-6 text-center shadow-lg">
-      <p className="m-0 text-xs tracking-wide text-[#EBF4DD] font-bold max-w-4xl mx-auto">
-        COPYRIGHT &copy; RAMJEE SINGH AND COMPANY - DEVELOPED BY VASHUDEV ALL RIGHTS RESERVED - 2025
-      </p>
-    </footer>
+        <p className="m-0 text-xs tracking-wide text-[#EBF4DD] font-bold max-w-4xl mx-auto">
+          COPYRIGHT &copy; KOCHAS POWER PVT. LTD. - DEVELOPED BY KJTECH SOLUTIONS ALL RIGHTS RESERVED - 2025
+        </p>
+      </footer>
     </div>
   );
 };

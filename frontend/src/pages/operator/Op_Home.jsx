@@ -3,11 +3,11 @@ import { FaCheckCircle, FaTimes } from 'react-icons/fa';
 import { QRCodeSVG } from 'qrcode.react';
 import ReactDOMServer from 'react-dom/server';
 import DataTable from 'react-data-table-component';
-import { 
-  getVehicleRates, 
-  getOperatorTokens, 
+import {
+  getVehicleRates,
+  getOperatorTokens,
   createOperatorToken,
-  getCurrentUser 
+  getCurrentUser
 } from '../../services/api';
 
 const Op_Home = () => {
@@ -100,7 +100,7 @@ const Op_Home = () => {
     const setLoggedInUserData = () => {
       try {
         const currentUser = getCurrentUser();
-        
+
         setFormData(prev => ({
           ...prev,
           userId: currentUser._id || '',
@@ -144,7 +144,7 @@ const Op_Home = () => {
     setLoading(true);
     try {
       const result = await getOperatorTokens(page, perPage);
-      
+
       if (result?.status === 'success') {
         setApiTokens(result.data);
         setEntries(result.data);
@@ -344,7 +344,7 @@ const Op_Home = () => {
   const resetForm = () => {
     // Get current user data to preserve it
     const currentUser = getCurrentUser();
-    
+
     // Reset form while keeping user data
     setFormData({
       userId: currentUser._id || '',
@@ -372,13 +372,13 @@ const Op_Home = () => {
       if (!selectedVehicle) {
         throw new Error('Please select a valid vehicle type');
       }
-  
+
       // Ensure quantity is properly parsed as an integer
       const quantity = parseInt(formData.quantity);
       if (isNaN(quantity)) {
         throw new Error('Invalid quantity value');
       }
-  
+
       const submitData = {
         userId: formData.userId,
         vehicleId: selectedVehicle.vehicleId || selectedVehicle._id, // Add fallback to _id
@@ -423,9 +423,9 @@ const Op_Home = () => {
       place: formData.place,
       chalaanPin: formData.chalaanPin
     };
-    
+
     const hasChanges = Object.values(formFields).some(value => value !== '' && value !== undefined);
-    
+
     if (hasChanges) {
       setShowCancelConfirm(true);
     } else {
@@ -446,7 +446,7 @@ const Op_Home = () => {
         date: formatDateTime(entry.createdAt),
         token: entry.tokenNo,
         query: entry.route,
-        cluster: '1',
+        cluster: '12',
         driver: entry.driverName,
         vehicle: entry.vehicleType,
         quantity: entry.quantity,
@@ -456,26 +456,26 @@ const Op_Home = () => {
         challan: entry.chalaanPin
       });
     };
-  
+
     const QRCodeComponent = ({ data }) => (
-      <QRCodeSVG 
+      <QRCodeSVG
         value={data}
         size={40} // Reduced QR code size
         level="M"
         includeMargin={true}
       />
     );
-  
+
     const createCopy = (title) => {
       const qrData = createQRData(entry);
       const qrCodeSvg = ReactDOMServer.renderToString(
         <QRCodeComponent data={qrData} />
       );
-  
+
       return `
         <div class="token-section">
           <div class="header">
-            <div class="company-name">RAMJEE SINGH & COMPANY</div>
+            <div class="company-name">KOCHAS POWER PVT. LTD.</div>
             <div class="copy-type">${title}</div>
           </div>
           <div class="content">
@@ -483,7 +483,7 @@ const Op_Home = () => {
               <tr><td>Date/Time:</td><td>${formatDateTime(entry.createdAt)}</td></tr>
               <tr><td>Token No.:</td><td>${entry.tokenNo || 'N/A'}</td></tr>
               <tr><td>Query Name:</td><td>${entry.route || 'N/A'}</td></tr>
-              <tr><td>Cluster:</td><td>1</td></tr>
+              <tr><td>Cluster:</td><td>12</td></tr>
               <tr><td>Driver Name:</td><td>${entry.driverName}</td></tr>
               <tr><td>Vehicle Type:</td><td>${entry.vehicleType}</td></tr>
               <tr><td>Vehicle No.:</td><td>${entry.vehicleNo || 'N/A'}</td></tr>
@@ -500,7 +500,7 @@ const Op_Home = () => {
         </div>
       `;
     };
-  
+
     const printContent = `
       <!DOCTYPE html>
       <html>
@@ -577,27 +577,27 @@ const Op_Home = () => {
         </body>
       </html>
     `;
-  
+
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
       showError('Popup was blocked. Please allow popups and try again.');
       return;
     }
-  
+
     printWindow.document.write(printContent);
     printWindow.document.close();
-  
+
     printWindow.onafterprint = () => {
       printWindow.close();
       window.focus(); // Return focus to the main window
     };
-  
+
     printWindow.onerror = () => {
       showError('Error occurred while printing');
       printWindow.close();
       window.focus();
     };
-  
+
     setTimeout(() => {
       try {
         printWindow.print();
@@ -609,7 +609,7 @@ const Op_Home = () => {
       }
     }, 500);
   };
-  
+
 
   const handleReceiptPrint = (entry) => {
     const createQRData = (entry) => {
@@ -617,7 +617,7 @@ const Op_Home = () => {
         date: formatDateTime(entry.createdAt),
         token: entry.tokenNo,
         query: entry.route,
-        cluster: '1',
+        cluster: '12',
         driver: entry.driverName,
         vehicle: entry.vehicleType, // Changed from VehicleType
         quantity: entry.quantity,
@@ -627,7 +627,7 @@ const Op_Home = () => {
         challan: entry.chalaanPin
       });
     };
-  
+
     // Add compact date formatter for thermal receipts
     const formatCompactDateTime = (dateString) => {
       try {
@@ -638,7 +638,7 @@ const Op_Home = () => {
         const hour = date.getHours() % 12 || 12;
         const minute = date.getMinutes().toString().padStart(2, '0');
         const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-        
+
         return `${day}/${month}/${year} ${hour}:${minute}${ampm}`;
       } catch (error) {
         console.error('Date formatting error:', error);
@@ -647,24 +647,24 @@ const Op_Home = () => {
     };
 
     const QRCodeComponent = ({ data }) => (
-      <QRCodeSVG 
+      <QRCodeSVG
         value={data}
         size={100}  // Increased QR code size
         level="M"
         includeMargin={true}
       />
     );
-  
+
     const createCopy = (title) => {
       const qrData = createQRData(entry);
       const qrCodeSvg = ReactDOMServer.renderToString(
         <QRCodeComponent data={qrData} />
       );
-  
+
       return `
         <div class="receipt">
           <div class="header">
-            <div class="company-name">RAMJEE SINGH & COMPANY</div>
+            <div class="company-name">KOCHAS POWER PVT. LTD.</div>
             <div class="divider">================================</div>
             <div class="copy-label">${title}</div>
             <div class="token-number">Token No: ${entry.tokenNo || 'N/A'}</div>
@@ -673,7 +673,7 @@ const Op_Home = () => {
           <div class="content">
             <div>Date/Time: ${formatCompactDateTime(entry.createdAt)}</div>
             <div>Query Name: ${entry.route || 'N/A'}</div>
-            <div>Cluster: 1</div>
+            <div>Cluster: 12</div>
             <div>Driver Name: ${entry.driverName}</div>
             <div>Vehicle Type: ${entry.vehicleType}</div>
             <div>Vehicle No: ${entry.vehicleNo || 'N/A'}</div> 
@@ -690,7 +690,7 @@ const Op_Home = () => {
         </div>
       `;
     };
-  
+
     const printContent = `
       <!DOCTYPE html>
       <html>
@@ -780,7 +780,7 @@ const Op_Home = () => {
         </body>
       </html>
     `;
-  
+
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
       showError('Popup was blocked. Please allow popups and try again.');
@@ -812,7 +812,7 @@ const Op_Home = () => {
       }
     }, 500);
   };
-  
+
 
   const [users, setUsers] = useState([]);
 
@@ -830,21 +830,21 @@ const Op_Home = () => {
   });
 
   // Add formatDateTime function if not already present
-const formatDateTime = (dateString) => {
-  try {
-    return new Date(dateString).toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true
-    });
-  } catch (error) {
-    console.error('Date formatting error:', error);
-    return 'Invalid Date';
-  }
-};
+  const formatDateTime = (dateString) => {
+    try {
+      return new Date(dateString).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    } catch (error) {
+      console.error('Date formatting error:', error);
+      return 'Invalid Date';
+    }
+  };
 
   const columns = [
     {
@@ -941,9 +941,8 @@ const formatDateTime = (dateString) => {
     {
       name: 'Status',
       cell: row => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          row.isLoaded ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-        }`}>
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${row.isLoaded ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+          }`}>
           {row.isLoaded ? 'Loaded' : 'Pending'}
         </span>
       ),
@@ -1011,7 +1010,7 @@ const formatDateTime = (dateString) => {
         </div>
       )}
 
-      <button 
+      <button
         onClick={handleAddToken}
         className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] text-[#EBF4DD] font-bold text-lg transition duration-300 hover:from-[#3B4953] hover:to-[#3B4953] hover:shadow-lg transform hover:-translate-y-1"
       >
@@ -1022,9 +1021,9 @@ const formatDateTime = (dateString) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-gradient-to-b from-[#EBF4DD] to-white rounded-2xl shadow-2xl p-6 w-[800px] max-h-[90vh] overflow-y-auto mx-auto border-2 border-[#90AB8B]">
             <h2 className="text-2xl font-bold text-[#3B4953] mb-4 pb-3 border-b-2 border-[#90AB8B]">Add New Token</h2>
-            <form 
-              onSubmit={handleSubmitClick} 
-              autoComplete="off" 
+            <form
+              onSubmit={handleSubmitClick}
+              autoComplete="off"
               id={`form-${Math.random()}`}
             >
               <div className="grid grid-cols-2 gap-4">
@@ -1032,7 +1031,7 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">User</label>
                   <div className="inline-block relative w-full">
-                    <input 
+                    <input
                       type="text"
                       value={formData.username || ''}
                       className="block w-full px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none cursor-not-allowed opacity-70"
@@ -1044,7 +1043,7 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Route</label>
                   <div className="inline-block relative w-full">
-                    <input 
+                    <input
                       type="text"
                       value={formData.route || ''}
                       className="block w-full px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none cursor-not-allowed opacity-70"
@@ -1055,8 +1054,8 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Name</label>
                   <div className="inline-block relative w-full">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="driverName"
                       value={formData.driverName}
                       onChange={handleInputChange}
@@ -1071,8 +1070,8 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Mobile</label>
                   <div className="inline-block relative w-full">
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
                       name="driverMobile"
                       value={formData.driverMobile}
                       onChange={handleInputChange}
@@ -1090,8 +1089,8 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle No</label>
                   <div className="inline-block relative w-full">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="vehicleNo"
                       value={formData.vehicleNo}
                       onChange={handleInputChange}
@@ -1115,8 +1114,8 @@ const formatDateTime = (dateString) => {
                     >
                       <option value="">Select Vehicle Type</option>
                       {vehicleRates.map((vehicle, index) => (
-                        <option 
-                          key={index} 
+                        <option
+                          key={index}
                           value={vehicle.vehicleType}
                           className="text-[#3B4953] bg-[#EBF4DD]"
                         >
@@ -1126,7 +1125,7 @@ const formatDateTime = (dateString) => {
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#5A7863]">
                       <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                       </svg>
                     </div>
                   </div>
@@ -1134,7 +1133,7 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle Rate</label>
                   <div className="inline-block relative w-full">
-                    <input 
+                    <input
                       type="text"
                       value={formData.vehicleRate}
                       className="block w-full px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none cursor-not-allowed opacity-70"
@@ -1164,8 +1163,8 @@ const formatDateTime = (dateString) => {
                         required
                       >
                         {quantityOptions.map((qty, index) => (
-                          <option 
-                            key={index} 
+                          <option
+                            key={index}
                             value={qty === "Select Quantity" ? "" : qty}
                             disabled={qty === "Select Quantity"}
                             className={`${qty === "Select Quantity" ? "text-gray-500" : "text-[#3B4953]"} bg-[#EBF4DD]`}
@@ -1180,8 +1179,8 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Place</label>
                   <div className="inline-block relative w-full">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="place"
                       value={formData.place}
                       onChange={handleInputChange}
@@ -1195,8 +1194,8 @@ const formatDateTime = (dateString) => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Chalaan Pin</label>
                   <div className="inline-block relative w-full">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="chalaanPin"
                       value={formData.chalaanPin}
                       onChange={handleInputChange}
@@ -1209,14 +1208,14 @@ const formatDateTime = (dateString) => {
                 </div>
               </div>
               <div className="flex justify-end space-x-3 mt-6 pt-4 border-t-2 border-[#90AB8B]">
-                <button 
+                <button
                   type="button"
                   onClick={handleCancelClick}
                   className="px-6 py-2.5 bg-gradient-to-r from-gray-400 to-gray-500 text-white rounded-lg hover:from-gray-500 hover:to-gray-600 transition-all duration-300 font-medium"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   type="submit"
                   className="px-6 py-2.5 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] text-[#EBF4DD] rounded-lg hover:from-[#5A7863] hover:to-[#3B4953] transition-all duration-300 font-bold"
                 >
