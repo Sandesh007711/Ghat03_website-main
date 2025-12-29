@@ -2,8 +2,8 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <footer className="footer_w">
-      <p className="m-0 text-xs tracking-wide opacity-75">
+    <footer className="bg-gradient-to-r from-[#5A7863] via-[#3B4953] to-[#5A7863] text-[#EBF4DD] text-center py-3 fixed bottom-0 w-full shadow-lg font-sans">
+      <p className="m-0 text-sm tracking-wide font-semibold">
         COPYRIGHT &copy; RAMJEE SINGH AND COMPANY - DEVELOPED BY VASHUDEV ALL RIGHTS RESERVED - 2025
       </p>
     </footer>

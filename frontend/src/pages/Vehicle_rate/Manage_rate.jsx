@@ -241,12 +241,12 @@ const ManageRate = () => {
     <div className="p-7 max-w-7xl mx-auto">
       {/* Success Popup */}
       {successPopup.show && (
-        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-500 text-green-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
           <FaCheckCircle />
-          <span>{successPopup.message}</span>
+          <span className="font-medium">{successPopup.message}</span>
           <button
             onClick={() => setSuccessPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-green-600 hover:text-green-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -255,11 +255,11 @@ const ManageRate = () => {
 
       {/* Error Popup */}
       {errorPopup.show && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{errorPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-500 text-red-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+          <span className="font-medium">{errorPopup.message}</span>
           <button
             onClick={() => setErrorPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-red-600 hover:text-red-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -269,23 +269,23 @@ const ManageRate = () => {
       {/* Delete Confirmation Popup */}
       {deleteConfirm.show && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-            <div className="flex items-center text-yellow-500 mb-4">
+          <div className="bg-gradient-to-br from-[#EBF4DD] to-white rounded-lg shadow-2xl p-6 max-w-sm w-full mx-4 border-2 border-[#90AB8B]">
+            <div className="flex items-center text-yellow-600 mb-4">
               <FaExclamationTriangle className="text-2xl mr-2" />
-              <h3 className="text-lg font-semibold text-gray-800">Confirm Deletion</h3>
+              <h3 className="text-lg font-semibold text-[#3B4953]">Confirm Deletion</h3>
             </div>
-            <p className="text-gray-600 mb-6">Are you sure you want to delete this rate? This action cannot be undone.</p>
+            <p className="text-[#5A7863] mb-6">Are you sure you want to delete this rate? This action cannot be undone.</p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setDeleteConfirm({ show: false, id: null })}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                className="px-4 py-2 bg-[#EBF4DD] text-[#5A7863] rounded hover:bg-white hover:text-[#3B4953] transition-colors border-2 border-[#90AB8B]"
                 disabled={isDeletingRate}
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors flex items-center"
+                className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded hover:from-red-600 hover:to-red-700 transition-all flex items-center"
                 disabled={isDeletingRate}
               >
                 {isDeletingRate ? (
@@ -303,8 +303,8 @@ const ManageRate = () => {
       )}
 
       {/* Header Section with Form */}
-      <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-300 mb-4">Manage Vehicle Rates</h1>
+      <div className="bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] rounded-2xl shadow-2xl p-6 mb-6">
+        <h1 className="text-2xl font-bold text-[#EBF4DD] mb-4">Manage Vehicle Rates</h1>
         <div className="flex flex-wrap items-center gap-4">
           {/* Vehicle Type Dropdown */}
           <select
@@ -313,7 +313,7 @@ const ManageRate = () => {
               const selected = e.target.value;
               setSelectedVehicle(selected);
             }}
-            className="px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300 min-w-[200px]"
+            className="px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300 min-w-[200px]"
             disabled={isLoading}
           >
             <option value="">Select Vehicle Type</option>
@@ -342,7 +342,7 @@ const ManageRate = () => {
             value={rate}
             onChange={handleRateChange}
             placeholder="Enter Rate Amount"
-            className="px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+            className="px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
           />
           
           {/* Add/Update Button and Error Display */}
@@ -350,7 +350,7 @@ const ManageRate = () => {
             <button
               onClick={handleAddRate}
               disabled={isAddingRate}
-              className="px-8 py-2 rounded-md bg-gray-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-teal-500 flex items-center justify-center"
+              className="px-8 py-2 rounded-md bg-[#EBF4DD] text-[#3B4953] font-bold transition duration-200 hover:bg-white hover:shadow-lg border-2 border-transparent hover:border-[#3B4953] flex items-center justify-center"
             >
               {isAddingRate ? (
                 <>
@@ -364,23 +364,23 @@ const ManageRate = () => {
             {editingId && (
               <button
                 onClick={resetForm}
-                className="px-8 py-2 rounded-md bg-gray-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-teal-500 flex items-center justify-center"
+                className="px-8 py-2 rounded-md bg-gradient-to-r from-[#5A7863] to-[#3B4953] text-[#EBF4DD] font-bold transition duration-200 hover:from-[#3B4953] hover:to-[#5A7863] flex items-center justify-center"
               >
                 Cancel
               </button>
             )}
             {inputError && (
-              <span className="text-red-400 text-sm font-medium">{inputError}</span>
+              <span className="text-red-600 text-sm font-medium">{inputError}</span>
             )}
           </div>
         </div>
       </div>
 
       {/* Rates Table Section */}
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-[#5A7863]">
         <table className="w-full">
           {/* Table Header */}
-          <thead className="bg-gradient-to-r from-slate-400 via-slate-300 to-slate-200">
+          <thead className="bg-[#5A7863] text-[#EBF4DD]">
             <tr>
               <th className="py-3 px-4 text-left font-semibold">Vehicle Type</th>
               <th className="py-3 px-4 text-left font-semibold">Rate Amount</th>
@@ -388,39 +388,39 @@ const ManageRate = () => {
             </tr>
           </thead>
           {/* Table Body */}
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-[#90AB8B]">
             {isTableLoading ? (
               <tr>
-                <td colSpan="3" className="py-8 text-center text-gray-500 text-lg">
+                <td colSpan="3" className="py-8 text-center text-[#5A7863] text-lg">
                   <div className="flex items-center justify-center">
                     <FaSpinner className="animate-spin text-2xl mr-2" />
-                    Loading rates...
+                    <span className="font-medium">Loading rates...</span>
                   </div>
                 </td>
               </tr>
             ) : rates.length === 0 ? (
               <tr>
-                <td colSpan="3" className="py-8 text-center text-gray-500 text-lg">
-                  No vehicle rates available
+                <td colSpan="3" className="py-8 text-center text-[#5A7863] text-lg">
+                  <span className="font-medium">No vehicle rates available</span>
                 </td>
               </tr>
             ) : (
               rates.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50 transition duration-200">
-                  <td className="py-3 px-4">{item.vehicleType}</td>
-                  <td className="py-3 px-4">₹{item.rate}</td>
+                <tr key={item.id} className="bg-[#EBF4DD] hover:bg-[#90AB8B] transition duration-200">
+                  <td className="py-3 px-4 text-[#3B4953]">{item.vehicleType}</td>
+                  <td className="py-3 px-4 text-[#3B4953]">₹{item.rate}</td>
                   <td className="py-3 px-4">
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEdit(item)}
-                        className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-600 hover:to-yellow-400 text-white px-3 py-1 rounded-full flex items-center transition duration-300 transform hover:scale-105"
+                        className="bg-gradient-to-r from-[#90AB8B] to-[#5A7863] hover:from-[#5A7863] hover:to-[#3B4953] text-[#EBF4DD] px-3 py-1 rounded-full flex items-center transition duration-300 transform hover:scale-105"
                       >
                         <FaEdit className="mr-1" />
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(item)}
-                        className="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-600 hover:to-red-400 text-white px-3 py-1 rounded-full flex items-center transition duration-300 transform hover:scale-105"
+                        className="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-1 rounded-full flex items-center transition duration-300 transform hover:scale-105"
                       >
                         <FaTrash className="mr-1" />
                         Delete

@@ -23,8 +23,8 @@ const StyledWrapper = styled.div`
     position: relative;
     overflow: hidden;
     transition-duration: .3s;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-    background-color: rgb(255, 65, 65);
+    box-shadow: 2px 2px 10px rgba(90, 120, 99, 0.3);
+    background: linear-gradient(135deg, #90AB8B, #5A7863);
   }
 
   .sign {
@@ -40,7 +40,7 @@ const StyledWrapper = styled.div`
   }
 
   .sign svg path {
-    fill: white;
+    fill: #EBF4DD;
   }
 
   .text {
@@ -48,7 +48,7 @@ const StyledWrapper = styled.div`
     right: 0%;
     width: 0%;
     opacity: 0;
-    color: white;
+    color: #EBF4DD;
     font-size: 1.2em;
     font-weight: 600;
     transition-duration: .3s;
@@ -58,6 +58,8 @@ const StyledWrapper = styled.div`
     width: 125px;
     border-radius: 40px;
     transition-duration: .3s;
+    background: linear-gradient(135deg, #5A7863, #3B4953);
+    box-shadow: 2px 2px 15px rgba(90, 120, 99, 0.5);
   }
 
   .Btn:hover .sign {
@@ -109,7 +111,7 @@ const Nav = () => {
 
   return (
     <>
-      <header className="fixed top-0 w-full z-50 bg-gradient-to-l from-slate-400 via-slate-700 to-black py-2 sm:py-3 md:py-3 lg:py-4">
+      <header className="fixed top-0 w-full z-50 bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] py-2 sm:py-3 md:py-3 lg:py-4 shadow-lg">
         <div className="flex justify-between items-center mx-2 sm:mx-3 md:mx-4 lg:mx-5">
           {/* Company Logo and Title */}
           <div className="flex items-center gap-2">
@@ -120,7 +122,7 @@ const Nav = () => {
             />
           
             <Link to="/" className="ml-2 sm:ml-3 md:ml-4 lg:ml-5">
-              <h1 className="text-white text-sm sm:text-xl md:text-2xl lg:text-3xl font-bold rounded-xl px-2 transition-transform duration-300 hover:scale-110 hover:shadow-lg hover:shadow-slate-400">
+              <h1 className="text-[#EBF4DD] text-sm sm:text-xl md:text-2xl lg:text-3xl font-bold rounded-xl px-2 transition-transform duration-300 hover:scale-110 hover:shadow-lg hover:shadow-[#3B4953]">
                 Ramjee Singh And Co.
               </h1>
             </Link>
@@ -129,13 +131,13 @@ const Nav = () => {
           {/* Menu Items */}
           <div className="flex items-center gap-4 sm:gap-6 md:gap-8 lg:gap-10">
             <Link to="/">
-              <button className="transition-transform duration-300 hover:scale-110 group">
+              <button className="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-3 rounded-full transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl border border-white/30 relative group">
                 <img
                   src={home}
                   alt="Home"
-                  className="h-[25px] w-[25px] sm:h-[30px] sm:w-[30px] md:h-[40px] md:w-[40px]"
+                  className="h-[25px] w-[25px] sm:h-[30px] sm:w-[30px] filter brightness-0 invert"
                 />
-                <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 px-3 py-1 text-sm text-[#EBF4DD] bg-[#3B4953] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap font-semibold shadow-lg">
                   Home
                 </span>
               </button>
@@ -143,10 +145,10 @@ const Nav = () => {
 
             <button
               onClick={() => setShowContactModal(true)}
-              className="transition-transform duration-300 hover:scale-110 group"
+              className="bg-white/20 backdrop-blur-sm hover:bg-white/30 p-3 rounded-full transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl border border-white/30 relative group"
             >
-              <BiSolidContact className="text-3xl text-white hover:text-blue-400 transition-colors" />
-              <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <BiSolidContact className="text-2xl sm:text-3xl text-[#EBF4DD]" />
+              <span className="absolute -bottom-10 left-1/2 transform -translate-x-1/2 px-3 py-1 text-sm text-[#EBF4DD] bg-[#3B4953] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap font-semibold shadow-lg">
                 Contact Us
               </span>
             </button>
@@ -168,19 +170,19 @@ const Nav = () => {
       {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Confirm Logout</h2>
-            <p className="mb-6 text-gray-600">Are you sure you want to logout?</p>
+          <div className="bg-gradient-to-br from-[#EBF4DD] to-[#90AB8B] p-6 rounded-lg shadow-xl border-2 border-[#5A7863]">
+            <h2 className="text-xl font-bold mb-4 text-[#3B4953]">Confirm Logout</h2>
+            <p className="mb-6 text-[#5A7863] font-medium">Are you sure you want to logout?</p>
             <div className="flex justify-end space-x-4">
               <button
                 onClick={handleLogoutCancel}
-                className="px-4 py-2 bg-gray-200 text-gray-800 hover:bg-gray-400 transition-colors"
+                className="px-4 py-2 bg-[#90AB8B] text-[#EBF4DD] rounded hover:bg-[#5A7863] transition-colors font-semibold shadow-md"
               >
                 Cancel
               </button>
               <button
                 onClick={handleLogoutConfirm}
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-[#5A7863] to-[#3B4953] text-[#EBF4DD] rounded hover:from-[#3B4953] hover:to-[#5A7863] transition-colors font-semibold shadow-md"
               >
                 Logout
               </button>
@@ -192,42 +194,42 @@ const Nav = () => {
       {/* Contact Modal */}
       {showContactModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
+          <div className="bg-gradient-to-br from-[#EBF4DD] to-[#90AB8B] p-8 rounded-lg shadow-xl max-w-md w-full mx-4 border-2 border-[#5A7863]">
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center gap-2">
-                <BiSolidContact className="text-4xl text-blue-600" />
-                <h2 className="text-2xl font-bold text-gray-800">Contact Us</h2>
+                <BiSolidContact className="text-4xl text-[#5A7863]" />
+                <h2 className="text-2xl font-bold text-[#3B4953]">Contact Us</h2>
               </div>
               <button
                 onClick={() => setShowContactModal(false)}
-                className="text-gray-500 hover:text-gray-700 transition-colors"
+                className="text-[#5A7863] hover:text-[#3B4953] transition-colors"
               >
                 <IoMdClose className="text-2xl" />
               </button>
             </div>
             
             <div className="space-y-6">
-              <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-sm">
+              <div className="p-6 bg-gradient-to-r from-[#EBF4DD] to-white rounded-lg shadow-md border border-[#90AB8B]">
                 <div className="flex items-center gap-3 mb-3">
-                  <BsBuilding className="text-2xl text-blue-600" />
-                  <h3 className="font-semibold text-gray-800 text-xl">Company</h3>
+                  <BsBuilding className="text-2xl text-[#5A7863]" />
+                  <h3 className="font-semibold text-[#3B4953] text-xl">Company</h3>
                 </div>
-                <p className="text-gray-700 text-lg font-medium pl-9">Vashudev</p>
+                <p className="text-[#5A7863] text-lg font-medium pl-9">Vashudev</p>
               </div>
               
-              <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg shadow-sm">
+              <div className="p-6 bg-gradient-to-r from-[#EBF4DD] to-white rounded-lg shadow-md border border-[#90AB8B]">
                 <div className="flex items-center gap-3 mb-4">
-                  <FaPhoneAlt className="text-2xl text-blue-600" />
-                  <h3 className="font-semibold text-gray-800 text-xl">Contact Numbers</h3>
+                  <FaPhoneAlt className="text-2xl text-[#5A7863]" />
+                  <h3 className="font-semibold text-[#3B4953] text-xl">Contact Numbers</h3>
                 </div>
                 <div className="space-y-3 pl-9">
-                  <p className="text-gray-700 hover:text-blue-600 transition-colors cursor-pointer flex items-center gap-2">
+                  <p className="text-[#5A7863] hover:text-[#3B4953] transition-colors cursor-pointer flex items-center gap-2">
                     <span className="font-medium">+91 6239135898</span>
                   </p>
-                  <p className="text-gray-700 hover:text-blue-600 transition-colors cursor-pointer flex items-center gap-2">
+                  <p className="text-[#5A7863] hover:text-[#3B4953] transition-colors cursor-pointer flex items-center gap-2">
                     <span className="font-medium">+91 7644027325</span>
                   </p>
-                  <p className="text-gray-700 hover:text-blue-600 transition-colors cursor-pointer flex items-center gap-2">
+                  <p className="text-[#5A7863] hover:text-[#3B4953] transition-colors cursor-pointer flex items-center gap-2">
                     <span className="font-medium">+91 9508694942</span>
                   </p>
                 </div>

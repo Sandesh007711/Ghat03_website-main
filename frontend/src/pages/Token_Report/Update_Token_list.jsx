@@ -152,7 +152,8 @@ const Update_Token_list = () => {
   const customStyles = {
     headRow: {
       style: {
-        background: 'linear-gradient(to right, #94a3b8, #cbd5e1, #e2e8f0)',
+        backgroundColor: '#5A7863',
+        color: '#EBF4DD',
         fontWeight: 'bold',
         minHeight: '52px',
         paddingLeft: '8px',
@@ -166,6 +167,7 @@ const Update_Token_list = () => {
         justifyContent: 'center',
         textAlign: 'center',
         fontWeight: '600',
+        color: '#EBF4DD',
       },
     },
     cells: {
@@ -175,16 +177,24 @@ const Update_Token_list = () => {
         textAlign: 'center',
         '&:not(:last-of-type)': {
           borderRightWidth: '1px',
-          borderRightColor: '#e5e7eb',
+          borderRightColor: '#90AB8B',
         },
       },
     },
     rows: {
       style: {
+        backgroundColor: '#EBF4DD',
         minHeight: '60px',
         '&:hover': {
-          backgroundColor: '#f8fafc',
+          backgroundColor: '#90AB8B',
+          color: '#3B4953',
         },
+      },
+    },
+    pagination: {
+      style: {
+        border: 'none',
+        backgroundColor: '#EBF4DD',
       },
     },
   };
@@ -193,11 +203,11 @@ const Update_Token_list = () => {
     <div className="p-7 max-w-7xl mx-auto">
       {/* Error Popup */}
       {errorPopup.show && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{errorPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-500 text-red-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+          <span className="font-medium">{errorPopup.message}</span>
           <button
             onClick={() => setErrorPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-red-600 hover:text-red-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -205,12 +215,12 @@ const Update_Token_list = () => {
       )}
 
       {/* Simplified Header Section */}
-      <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-300 text-center">Updated Tokens Report</h1>
+      <div className="bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] rounded-2xl shadow-2xl p-6 mb-6">
+        <h1 className="text-2xl font-bold text-[#EBF4DD] text-center">Updated Tokens Report</h1>
       </div>
 
       {/* DataTable Section */}
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-white rounded-lg shadow-lg overflow-hidden border-2 border-[#5A7863]">
         <DataTable
           columns={columns}
           data={filteredData}
@@ -224,15 +234,15 @@ const Update_Token_list = () => {
           onChangeRowsPerPage={handlePerPageChange}
           progressPending={loading}
           progressComponent={
-            <div className="flex items-center justify-center gap-2 py-8">
+            <div className="flex items-center justify-center gap-2 py-8 text-[#5A7863]">
               <FaSpinner className="animate-spin text-2xl" />
-              <span>Loading data...</span>
+              <span className="font-medium">Loading data...</span>
             </div>
           }
           customStyles={customStyles}
           noDataComponent={
-            <div className="py-8 text-center text-gray-500 text-lg">
-              No data available
+            <div className="py-8 text-center text-[#5A7863] text-lg">
+              <span className="font-medium">No data available</span>
             </div>
           }
           responsive

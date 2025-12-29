@@ -250,24 +250,24 @@ const CreateUser = () => {
 
   // Update renderTableRow function
   const renderTableRow = (user, index) => (
-    <tr key={user._id} className="hover:bg-gray-50 transition duration-200">
-      <td className="py-3 px-4 whitespace-nowrap">{user.username}</td>
-      <td className="py-3 px-4 whitespace-nowrap">{user.phone}</td>
-      <td className="py-3 px-4 whitespace-nowrap">{user.rawPassword}</td>
-      <td className="py-3 px-4 whitespace-nowrap">{user.route}</td>
+    <tr key={user._id} className="bg-[#EBF4DD] hover:bg-[#90AB8B] transition duration-200">
+      <td className="py-3 px-4 whitespace-nowrap text-[#3B4953]">{user.username}</td>
+      <td className="py-3 px-4 whitespace-nowrap text-[#3B4953]">{user.phone}</td>
+      <td className="py-3 px-4 whitespace-nowrap text-[#3B4953]">{user.rawPassword}</td>
+      <td className="py-3 px-4 whitespace-nowrap text-[#3B4953]">{user.route}</td>
       <td className="py-3 px-4">
         <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
           <div className="flex gap-2">
             <button
               onClick={() => handleEdit(index)}
-              className="bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-600 hover:to-yellow-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
+              className="bg-gradient-to-r from-[#90AB8B] to-[#5A7863] hover:from-[#5A7863] hover:to-[#3B4953] text-[#EBF4DD] px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
             >
               <FaEdit className="mr-1" />
               Edit
             </button>
             <button
               onClick={() => handleDelete(user)}
-              className="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-600 hover:to-red-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
+              className="bg-gradient-to-r from-red-400 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
             >
               <FaTrash className="mr-1" />
               Delete
@@ -287,7 +287,7 @@ const CreateUser = () => {
             <button
               onClick={() => handleToggleActive(user)}
               disabled={togglingUserId === user._id}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5A7863] ${
                 user.active ? 'bg-green-500' : 'bg-gray-300'
               } ${togglingUserId === user._id ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
@@ -310,14 +310,14 @@ const CreateUser = () => {
   );
 
   return (
-    <div className="p-7 max-w-7xl mx-auto">
+    <div className="p-7 max-w-7xl mx-auto pb-24">
       {/* Error Popup */}
       {errorPopup.show && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{errorPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-500 text-red-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+          <span className="font-medium">{errorPopup.message}</span>
           <button
             onClick={() => setErrorPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-red-600 hover:text-red-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -326,12 +326,12 @@ const CreateUser = () => {
 
       {/* Success Popup */}
       {successPopup.show && (
-        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-500 text-green-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
           <FaCheckCircle />
-          <span>{successPopup.message}</span>
+          <span className="font-medium">{successPopup.message}</span>
           <button
             onClick={() => setSuccessPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-green-600 hover:text-green-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -341,20 +341,20 @@ const CreateUser = () => {
       {/* Add Delete Confirmation Popup */}
       {deleteConfirm.show && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-            <h2 className="text-xl font-bold mb-4">Confirm Delete</h2>
-            <p className="text-gray-600 mb-6">Are you sure you want to delete this user?</p>
+          <div className="bg-gradient-to-br from-[#EBF4DD] to-white rounded-lg shadow-2xl p-6 max-w-sm w-full mx-4 border-2 border-[#90AB8B]">
+            <h2 className="text-xl font-bold mb-4 text-[#3B4953]">Confirm Delete</h2>
+            <p className="text-[#5A7863] mb-6">Are you sure you want to delete this user?</p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setDeleteConfirm({ show: false, index: null, id: null })}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                className="px-4 py-2 bg-[#EBF4DD] text-[#5A7863] rounded hover:bg-white hover:text-[#3B4953] transition-colors border-2 border-[#90AB8B]"
                 disabled={isDeletingUser}
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors flex items-center"
+                className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded hover:from-red-600 hover:to-red-700 transition-all flex items-center"
                 disabled={isDeletingUser}
               >
                 {isDeletingUser ? (
@@ -374,9 +374,9 @@ const CreateUser = () => {
       {/* Add Toggle Status Confirmation Popup */}
       {toggleConfirm.show && toggleConfirm.user && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-            <h2 className="text-xl font-bold mb-4">Confirm Status Change</h2>
-            <p className="text-gray-600 mb-6">
+          <div className="bg-gradient-to-br from-[#EBF4DD] to-white rounded-lg shadow-2xl p-6 max-w-sm w-full mx-4 border-2 border-[#90AB8B]">
+            <h2 className="text-xl font-bold mb-4 text-[#3B4953]">Confirm Status Change</h2>
+            <p className="text-[#5A7863] mb-6">
               Are you sure you want to {toggleConfirm.user.active ? 'lock' : 'unlock'} this user?
               {toggleConfirm.user.active && (
                 <span className="block mt-2 text-red-600 font-semibold">
@@ -387,16 +387,16 @@ const CreateUser = () => {
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setToggleConfirm({ show: false, user: null })}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                className="px-4 py-2 bg-[#EBF4DD] text-[#5A7863] rounded hover:bg-white hover:text-[#3B4953] transition-colors border-2 border-[#90AB8B]"
               >
                 Cancel
               </button>
               <button
                 onClick={confirmToggleActive}
-                className={`px-4 py-2 text-white rounded transition-colors flex items-center ${
+                className={`px-4 py-2 text-white rounded transition-all flex items-center ${
                   toggleConfirm.user.active 
-                    ? 'bg-red-500 hover:bg-red-600' 
-                    : 'bg-green-500 hover:bg-green-600'
+                    ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700' 
+                    : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700'
                 }`}
               >
                 {toggleConfirm.user.active ? 'Lock' : 'Unlock'}
@@ -407,13 +407,13 @@ const CreateUser = () => {
       )}
 
       {/* Form Container */}
-      <div ref={formRef} className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 mb-6">
-        <h2 className="text-2xl font-bold text-gray-300 mb-4">{isEditMode ? 'Edit User' : 'Create User'}</h2>
+      <div ref={formRef} className="bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] rounded-2xl shadow-2xl p-6 mb-6">
+        <h2 className="text-2xl font-bold text-[#EBF4DD] mb-4">{isEditMode ? 'Edit User' : 'Create User'}</h2>
         <div className="flex flex-wrap items-center gap-4">
           <form onSubmit={handleSubmit} className="w-full space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="relative">
-                <label className="block text-gray-300 text-sm font-bold mb-2">
+                <label className="block text-[#EBF4DD] text-sm font-bold mb-2">
                   User Name
                 </label>
                 <div className="inline-block relative">
@@ -425,13 +425,13 @@ const CreateUser = () => {
                     onChange={handleInputChange}
                     placeholder="Enter user name"
                     autoComplete="off"
-                    className="px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                     required
                   />
                 </div>
               </div>
               <div className="relative">
-                <label className="block text-gray-300 text-sm font-bold mb-2">
+                <label className="block text-[#EBF4DD] text-sm font-bold mb-2">
                   Mobile Number
                 </label>
                 <div className="inline-block relative">
@@ -442,13 +442,13 @@ const CreateUser = () => {
                     onChange={handleInputChange}
                     maxLength={10}
                     placeholder="Enter 10 digit number"
-                    className="px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                     required
                   />
                 </div>
               </div>
               <div className="relative" ref={passwordRef}>
-                <label className="block text-gray-300 text-sm font-bold mb-2">
+                <label className="block text-[#EBF4DD] text-sm font-bold mb-2">
                   Password
                 </label>
                 <div className="inline-block relative">
@@ -459,12 +459,12 @@ const CreateUser = () => {
                     onChange={handleInputChange}
                     placeholder="Enter password"
                     autoComplete="new-password"
-                    className="px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
+                    className="px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
                     required
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-gray-200 transition-colors duration-200"
+                    className="absolute inset-y-0 right-3 flex items-center text-[#5A7863] hover:text-[#3B4953] transition-colors duration-200"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-lg" />
@@ -472,7 +472,7 @@ const CreateUser = () => {
                 </div>
               </div>
               <div className="relative">
-                <label className="block text-gray-300 text-sm font-bold mb-2">
+                <label className="block text-[#EBF4DD] text-sm font-bold mb-2">
                   Route
                 </label>
                 <div className="inline-block relative">
@@ -482,7 +482,7 @@ const CreateUser = () => {
                     value={formData.route}
                     onChange={handleInputChange}
                     placeholder="Enter route details"
-                    className="px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                     required
                   />
                 </div>
@@ -493,7 +493,7 @@ const CreateUser = () => {
                 <button
                   type="button"
                   onClick={handleCancelEdit}
-                  className="px-8 py-2 rounded-md bg-gray-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-teal-500 flex items-center justify-center"
+                  className="px-8 py-2 rounded-md bg-gradient-to-r from-[#5A7863] to-[#3B4953] text-[#EBF4DD] font-bold transition duration-200 hover:from-[#3B4953] hover:to-[#5A7863] flex items-center justify-center"
                 >
                   Cancel
                 </button>
@@ -501,7 +501,7 @@ const CreateUser = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-2 rounded-md bg-gray-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-teal-500 flex items-center justify-center"
+                className="px-8 py-2 rounded-md bg-[#EBF4DD] text-[#3B4953] font-bold transition duration-200 hover:bg-white hover:shadow-lg border-2 border-transparent hover:border-[#3B4953] flex items-center justify-center"
               >
                 {isSubmitting ? (
                   <>
@@ -518,9 +518,9 @@ const CreateUser = () => {
       </div>
 
       {/* Table Container */}
-      <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
+      <div className="bg-white rounded-lg shadow-lg overflow-x-auto border-2 border-[#5A7863]">
         <table className="w-full min-w-[640px]">
-          <thead className="bg-gradient-to-r from-slate-400 via-slate-300 to-slate-200">
+          <thead className="bg-[#5A7863] text-[#EBF4DD]">
             <tr>
               <th className="py-3 px-4 text-left font-semibold">User Name</th>
               <th className="py-3 px-4 text-left font-semibold">Mobile Number</th>
@@ -529,20 +529,20 @@ const CreateUser = () => {
               <th className="py-3 px-4 text-left font-semibold">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-[#90AB8B]">
             {isLoading ? (
               <tr>
-                <td colSpan="5" className="py-8 text-center text-gray-500 text-lg">
+                <td colSpan="5" className="py-8 text-center text-[#5A7863] text-lg">
                   <div className="flex items-center justify-center">
                     <FaSpinner className="animate-spin text-2xl mr-2" />
-                    Loading users...
+                    <span className="font-medium">Loading users...</span>
                   </div>
                 </td>
               </tr>
             ) : !users || users.length === 0 ? (
               <tr>
-                <td colSpan="5" className="py-8 text-center text-gray-500 text-lg">
-                  No users available
+                <td colSpan="5" className="py-8 text-center text-[#5A7863] text-lg">
+                  <span className="font-medium">No users available</span>
                 </td>
               </tr>
             ) : (

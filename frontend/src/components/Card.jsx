@@ -584,13 +584,13 @@ const Card = ({ operator }) => {
         <div className="flex flex-col gap-2 py-2">
           <button
             onClick={() => handlePrint(row)}
-            className="bg-gradient-to-r from-green-400 to-green-600 hover:from-green-600 hover:to-green-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-[#90AB8B] to-[#5A7863] hover:from-[#5A7863] hover:to-[#3B4953] text-[#EBF4DD] px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105 shadow-md font-semibold"
           >
             L Print
           </button>
           <button
             onClick={() => handleReceiptPrint(row)}
-            className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-600 hover:to-blue-400 text-white px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105"
+            className="bg-gradient-to-r from-[#5A7863] to-[#3B4953] hover:from-[#90AB8B] hover:to-[#5A7863] text-[#EBF4DD] px-3 py-1 rounded-full flex items-center justify-center transition duration-300 transform hover:scale-105 shadow-md font-semibold"
           >
             T Print
           </button>
@@ -672,7 +672,7 @@ const Card = ({ operator }) => {
     {
       name: 'Status',
       cell: row => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${row.isLoaded === 'Yes' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${row.isLoaded === 'Yes' ? 'bg-[#90AB8B] text-[#EBF4DD]' : 'bg-[#5A7863] text-[#EBF4DD]'
           }`}>
           {row.isLoaded === 'Yes' ? 'Loaded' : 'Pending'}
         </span>
@@ -685,31 +685,46 @@ const Card = ({ operator }) => {
   const customStyles = {
     headRow: {
       style: {
-        backgroundColor: '#f1f5f9',
+        backgroundColor: '#5A7863',
+        color: '#EBF4DD',
         fontWeight: 'bold',
+        fontSize: '14px',
       },
     },
     rows: {
       style: {
         minHeight: '60px',
+        backgroundColor: '#EBF4DD',
+        color: '#3B4953',
         '&:hover': {
-          backgroundColor: '#f8fafc',
+          backgroundColor: '#90AB8B',
+          color: '#EBF4DD',
         },
+      },
+      stripedStyle: {
+        backgroundColor: '#f5f9f3',
       },
     },
     pagination: {
       style: {
         border: 'none',
-        backgroundColor: '#f8fafc',
+        backgroundColor: '#90AB8B',
+        color: '#EBF4DD',
+      },
+      pageButtonsStyle: {
+        fill: '#EBF4DD',
+        '&:hover': {
+          backgroundColor: '#5A7863',
+        },
       },
     },
   };
 
   // Update the return statement's wrapper div
   return (
-    <div className="p-7 max-w-7xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Tokens for {operator.username} ({totalRows} total)</h2>
-      <div className="bg-white rounded-lg shadow-lg overflow-x-auto">
+    <div className="p-7 max-w-7xl mx-auto bg-white min-h-screen">
+      <h2 className="text-3xl font-bold mb-6 text-[#3B4953] drop-shadow-md">Tokens for {operator.username} <span className="text-[#5A7863]">({totalRows} total)</span></h2>
+      <div className="bg-white rounded-lg shadow-2xl overflow-x-auto border-2 border-[#5A7863]">
         <DataTable
           columns={columns}
           data={data}
@@ -723,9 +738,9 @@ const Card = ({ operator }) => {
           onChangeRowsPerPage={handlePerRowsChange}
           progressPending={loading}
           progressComponent={
-            <div className="flex justify-center items-center gap-2 p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-              <span className="text-gray-500">Loading tokens...</span>
+            <div className="flex justify-center items-center gap-2 p-8 bg-gradient-to-r from-[#EBF4DD] to-[#90AB8B]">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-[#5A7863]"></div>
+              <span className="text-[#3B4953] font-semibold">Loading tokens...</span>
             </div>
           }
           customStyles={customStyles}

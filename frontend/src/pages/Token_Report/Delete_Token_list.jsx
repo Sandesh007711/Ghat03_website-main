@@ -153,7 +153,8 @@ const Delete_Token_list = () => {
   const customStyles = {
     headRow: {
       style: {
-        background: 'linear-gradient(to right, #94a3b8, #cbd5e1, #e2e8f0)',
+        background: '#5A7863',
+        color: '#EBF4DD',
         fontWeight: 'bold',
         minHeight: '52px',
         paddingLeft: '8px',
@@ -167,6 +168,7 @@ const Delete_Token_list = () => {
         justifyContent: 'center',
         textAlign: 'center',
         fontWeight: '600',
+        color: '#EBF4DD',
       },
     },
     cells: {
@@ -174,31 +176,37 @@ const Delete_Token_list = () => {
         padding: '8px',
         justifyContent: 'center',
         textAlign: 'center',
+        color: '#3B4953',
         '&:not(:last-of-type)': {
           borderRightWidth: '1px',
-          borderRightColor: '#e5e7eb',
+          borderRightColor: '#90AB8B',
         },
       },
     },
     rows: {
       style: {
         minHeight: '60px',
+        backgroundColor: '#EBF4DD',
         '&:hover': {
-          backgroundColor: '#f8fafc',
+          backgroundColor: '#90AB8B',
+          color: '#EBF4DD',
         },
+      },
+      stripedStyle: {
+        backgroundColor: '#f5f9f3',
       },
     },
   };
 
   return (
-    <div className="p-7 max-w-7xl mx-auto">
+    <div className="p-7 max-w-7xl mx-auto bg-white min-h-screen">
       {/* Error Popup */}
       {errorPopup.show && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{errorPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-500 text-red-800 px-6 py-4 rounded-lg shadow-xl flex items-center gap-3 animate-slide-in-top z-50">
+          <span className="font-semibold">{errorPopup.message}</span>
           <button
             onClick={() => setErrorPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-red-600 hover:text-red-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -206,12 +214,12 @@ const Delete_Token_list = () => {
       )}
 
       {/* Simplified Header Section */}
-      <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-300 text-center">Deleted Tokens Report</h1>
+      <div className="bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] rounded-2xl shadow-2xl p-6 mb-6">
+        <h1 className="text-3xl font-bold text-[#EBF4DD] text-center drop-shadow-md">Deleted Tokens Report</h1>
       </div>
 
       {/* DataTable Section */}
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="bg-white rounded-lg shadow-2xl overflow-hidden border-2 border-[#5A7863]">
         <DataTable
           columns={columns}
           data={filteredData}
@@ -222,12 +230,15 @@ const Delete_Token_list = () => {
           pointerOnHover
           progressPending={isLoading}
           progressComponent={
-            <div className="py-8 text-center text-gray-500 text-lg">
-              Loading...
+            <div className="py-8 text-center text-[#5A7863] text-lg font-semibold">
+              <div className="flex justify-center items-center gap-3">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-[#5A7863]"></div>
+                <span>Loading...</span>
+              </div>
             </div>
           }
           noDataComponent={
-            <div className="py-8 text-center text-gray-500 text-lg">
+            <div className="py-8 text-center text-[#5A7863] text-lg font-semibold">
               No data available
             </div>
           }
