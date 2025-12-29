@@ -508,9 +508,10 @@ const Token_list = () => {
   const customStyles = {
     headRow: {
       style: {
-        background: 'linear-gradient(to right, #94a3b8, #cbd5e1, #e2e8f0)',
+        backgroundColor: '#5A7863',
+        color: '#EBF4DD',
         fontWeight: 'bold',
-        minHeight: '52px', // Increased height for header row
+        minHeight: '52px',
         paddingLeft: '8px',
         paddingRight: '8px',
       },
@@ -519,9 +520,10 @@ const Token_list = () => {
       style: {
         fontSize: '14px',
         padding: '8px',
-        justifyContent: 'center', // Center align headers
+        justifyContent: 'center',
         textAlign: 'center',
         fontWeight: '600',
+        color: '#EBF4DD',
       },
     },
     cells: {
@@ -531,22 +533,24 @@ const Token_list = () => {
         textAlign: 'center',
         '&:not(:last-of-type)': {
           borderRightWidth: '1px',
-          borderRightColor: '#e5e7eb',
+          borderRightColor: '#90AB8B',
         },
       },
     },
     rows: {
       style: {
+        backgroundColor: '#EBF4DD',
         minHeight: '60px',
         '&:hover': {
-          backgroundColor: '#f8fafc',
+          backgroundColor: '#90AB8B',
+          color: '#3B4953',
         },
       },
     },
     pagination: {
       style: {
         border: 'none',
-        backgroundColor: '#f8fafc',
+        backgroundColor: '#EBF4DD',
       },
     },
   };
@@ -612,11 +616,11 @@ const Token_list = () => {
     <div className="p-7 max-w-7xl mx-auto">
       {/* Error Popup */}
       {errorPopup.show && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{errorPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-500 text-red-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+          <span className="font-medium">{errorPopup.message}</span>
           <button
             onClick={() => setErrorPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-red-600 hover:text-red-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -625,11 +629,11 @@ const Token_list = () => {
 
       {/* Success Popup */}
       {successPopup.show && (
-        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{successPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-500 text-green-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+          <span className="font-medium">{successPopup.message}</span>
           <button
             onClick={() => setSuccessPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-green-600 hover:text-green-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -639,13 +643,13 @@ const Token_list = () => {
       {/* Add Delete Confirmation Popup */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96">
-            <h3 className="text-lg font-semibold mb-4">Confirm Deletion</h3>
-            <p className="mb-4">Are you sure you want to delete this token?</p>
+          <div className="bg-gradient-to-br from-[#EBF4DD] to-white rounded-lg shadow-2xl p-6 w-96 border-2 border-[#90AB8B]">
+            <h3 className="text-lg font-semibold mb-4 text-[#3B4953]">Confirm Deletion</h3>
+            <p className="mb-4 text-[#5A7863]">Are you sure you want to delete this token?</p>
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="px-4 py-2 text-[#5A7863] hover:text-[#3B4953] transition-colors"
                 disabled={isDeleting}
               >
                 Cancel
@@ -653,7 +657,7 @@ const Token_list = () => {
               <button
                 onClick={handleDelete}
                 disabled={isDeleting}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 flex items-center gap-2"
+                className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded hover:from-red-600 hover:to-red-700 transition-all flex items-center gap-2"
               >
                 {isDeleting ? (
                   <>
@@ -670,38 +674,38 @@ const Token_list = () => {
       )}
 
       {/* Header Section with Form */}
-      <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-300 mb-4">Token Report</h1>
+      <div className="bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] rounded-2xl shadow-2xl p-6 mb-6">
+        <h1 className="text-2xl font-bold text-[#EBF4DD] mb-4">Token Report</h1>
         <form onSubmit={handleSubmit} className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col">
-            <label htmlFor="fromDate" className="text-gray-300 mb-1">From Date</label>
+            <label htmlFor="fromDate" className="text-[#EBF4DD] mb-1 font-medium">From Date</label>
             <DatePicker
               id="fromDate"
               selected={fromDate}
               onChange={date => setFromDate(date)}
-              className="px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+              className="px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
               placeholderText="From Date"
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="toDate" className="text-gray-300 mb-1">To Date</label>
+            <label htmlFor="toDate" className="text-[#EBF4DD] mb-1 font-medium">To Date</label>
             <DatePicker
               id="toDate"
               selected={toDate}
               onChange={date => setToDate(date)}
-              className="px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+              className="px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
               placeholderText="To Date"
             />
           </div>
 
           <div className="flex flex-col">
-            <label htmlFor="userSelect" className="text-gray-300 mb-1">Select User</label>
+            <label htmlFor="userSelect" className="text-[#EBF4DD] mb-1 font-medium">Select User</label>
             <select
               id="userSelect"
               value={selectedUser}
               onChange={(e) => setSelectedUser(e.target.value)}
-              className="px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300 min-w-[200px]"
+              className="px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300 min-w-[200px]"
             >
               <option value="">Select User</option>
               {users.map((user) => (
@@ -717,7 +721,7 @@ const Token_list = () => {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="px-8 py-2 rounded-md bg-gray-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-teal-500 flex items-center justify-center"
+                className="px-8 py-2 rounded-md bg-[#EBF4DD] text-[#3B4953] font-bold transition duration-200 hover:bg-white hover:shadow-lg border-2 border-transparent hover:border-[#3B4953] flex items-center justify-center"
               >
                 Apply Filters
               </button>
@@ -726,7 +730,7 @@ const Token_list = () => {
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="px-8 py-2 rounded-md bg-red-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-red-500 flex items-center justify-center"
+                  className="px-8 py-2 rounded-md bg-gradient-to-r from-[#5A7863] to-[#3B4953] text-[#EBF4DD] font-bold transition duration-200 hover:from-[#3B4953] hover:to-[#5A7863] flex items-center justify-center"
                 >
                   Reset Filters
                 </button>
@@ -737,12 +741,12 @@ const Token_list = () => {
       </div>
 
       {/* Table Section */}
-      <div className={`bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 ${isFullScreen ? 'fixed inset-0 z-50' : ''
+      <div className={`bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 border-2 border-[#5A7863] ${isFullScreen ? 'fixed inset-0 z-50' : ''
         }`}>
-        <div className="p-4 bg-gray-50 border-b flex justify-between items-center">
+        <div className="p-4 bg-gradient-to-r from-[#EBF4DD] to-white border-b-2 border-[#90AB8B] flex justify-between items-center">
           <button
             onClick={toggleFullScreen}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300"
+            className="flex items-center gap-2 bg-[#EBF4DD] hover:bg-white text-[#3B4953] px-4 py-2 rounded-lg transition duration-300 border-2 border-[#5A7863] hover:border-[#3B4953] font-medium"
           >
             {isFullScreen ? <FaCompressAlt /> : <FaExpandAlt />}
             {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
@@ -750,7 +754,7 @@ const Token_list = () => {
           {filteredData.length > 0 && (
             <button
               onClick={exportToExcel}
-              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-300"
+              className="flex items-center gap-2 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] hover:from-[#5A7863] hover:to-[#3B4953] text-[#EBF4DD] px-4 py-2 rounded-lg transition duration-300 font-medium"
             >
               <FaFileExcel />
               Export to Excel
@@ -761,7 +765,7 @@ const Token_list = () => {
         <div className={`${isFullScreen ? 'h-[calc(100vh-80px)] overflow-auto' : ''}`}>
           <DataTable
             columns={columns}
-            data={filteredData} // Use filteredData directly instead of currentData
+            data={filteredData}
             pagination
             paginationServer
             paginationPerPage={perPage}
@@ -772,7 +776,7 @@ const Token_list = () => {
             onChangeRowsPerPage={handlePerPageChange}
             progressPending={isLoading}
             progressComponent={
-              <div className="py-8 text-center text-gray-500">
+              <div className="py-8 text-center text-[#5A7863]">
                 <div className="flex flex-col items-center justify-center">
                   <FaSpinner className="animate-spin text-2xl mb-2" />
                   <span className="font-medium">Loading tokens...</span>
@@ -780,10 +784,10 @@ const Token_list = () => {
               </div>
             }
             noDataComponent={
-              <div className="py-8 text-center text-gray-500 text-lg">
+              <div className="py-8 text-center text-[#5A7863] text-lg">
                 <div className="flex flex-col items-center justify-center">
                   <span className="font-medium">No data available</span>
-                  <span className="text-sm text-gray-400 mt-1">Select date range to view tokens</span>
+                  <span className="text-sm text-[#90AB8B] mt-1">Select date range to view tokens</span>
                 </div>
               </div>
             }
@@ -801,45 +805,45 @@ const Token_list = () => {
       {/* Add Update Form Popup */}
       {showUpdateForm && updateFormData && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center pt-20 z-50">
-          <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 w-[800px] max-h-[85vh] overflow-y-auto relative">
+          <div className="bg-gradient-to-br from-[#EBF4DD] to-white rounded-2xl shadow-2xl p-6 w-[800px] max-h-[85vh] overflow-y-auto relative border-4 border-[#90AB8B]">
             {/* Close button */}
             <button
               onClick={() => setShowUpdateForm(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              className="absolute top-4 right-4 text-[#5A7863] hover:text-[#3B4953]"
             >
               <FaTimes className="w-6 h-6" />
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-300 mb-4">Update Token</h2>
+            <h2 className="text-2xl font-bold text-[#3B4953] mb-4">Update Token</h2>
             <form onSubmit={(e) => {
               e.preventDefault();
               handleUpdateSubmit(updateFormData);
             }}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Driver Name</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Name</label>
                   <input
                     type="text"
                     value={updateFormData.driverName}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, driverName: e.target.value })}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Driver Mobile No.</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Mobile No.</label>
                   <input
                     type="text"
                     value={updateFormData.driverMobileNo}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, driverMobileNo: e.target.value })}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Vehicle Type</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle Type</label>
                   <select
                     value={updateFormData.vehicleType || updateFormData.vehicleId?.vehicleType || ''}
                     onChange={handleVehicleTypeChange}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   >
                     <option value="">Select Vehicle Type</option>
                     {vehicleTypes.map((type) => (
@@ -850,57 +854,57 @@ const Token_list = () => {
                   </select>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Vehicle Rate</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle Rate</label>
                   <input
                     type="text"
                     value={updateFormData.vehicleRate || ''}
                     readOnly
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-[#EBF4DD] text-[#5A7863] rounded-lg border-2 border-[#90AB8B] focus:outline-none transition-all duration-300"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Vehicle No</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle No</label>
                   <input
                     type="text"
                     value={updateFormData.vehicleNo}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, vehicleNo: e.target.value })}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Place</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Place</label>
                   <input
                     type="text"
                     value={updateFormData.place}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, place: e.target.value })}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Route</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Route</label>
                   <input
                     type="text"
                     value={updateFormData.route}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, route: e.target.value })}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Challan Pin</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Challan Pin</label>
                   <input
                     type="text"
                     value={updateFormData.challanPin}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, challanPin: e.target.value })}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Quantity</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
                   <input
                     type="number"
                     value={updateFormData.quantity}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, quantity: e.target.value })}
-                    className="px-4 py-3 w-full bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
               </div>
@@ -908,7 +912,7 @@ const Token_list = () => {
                 <button
                   type="button"
                   onClick={() => setShowUpdateForm(false)}
-                  className="px-6 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-6 py-2.5 bg-[#EBF4DD] text-[#5A7863] rounded-lg hover:bg-white hover:text-[#3B4953] transition-colors border-2 border-[#90AB8B] font-medium"
                   disabled={isUpdating}
                 >
                   Cancel
@@ -916,7 +920,7 @@ const Token_list = () => {
                 <button
                   type="submit"
                   disabled={isUpdating}
-                  className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] text-[#EBF4DD] rounded-lg hover:from-[#5A7863] hover:to-[#3B4953] transition-all flex items-center gap-2 font-medium"
                 >
                   {isUpdating ? (
                     <>

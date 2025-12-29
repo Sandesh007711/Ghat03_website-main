@@ -268,7 +268,8 @@ const Loaded_list = () => {
   const customStyles = {
     headRow: {
       style: {
-        background: 'linear-gradient(to right, #94a3b8, #cbd5e1, #e2e8f0)',
+        background: '#5A7863',
+        color: '#EBF4DD',
         fontWeight: 'bold',
         minHeight: '52px',
         paddingLeft: '8px',
@@ -282,6 +283,7 @@ const Loaded_list = () => {
         justifyContent: 'center',
         textAlign: 'center',
         fontWeight: '600',
+        color: '#EBF4DD',
       },
     },
     cells: {
@@ -289,31 +291,37 @@ const Loaded_list = () => {
         padding: '8px',
         justifyContent: 'center',
         textAlign: 'center',
+        color: '#3B4953',
         '&:not(:last-of-type)': {
           borderRightWidth: '1px',
-          borderRightColor: '#e5e7eb',
+          borderRightColor: '#90AB8B',
         },
       },
     },
     rows: {
       style: {
         minHeight: '60px',
+        backgroundColor: '#EBF4DD',
         '&:hover': {
-          backgroundColor: '#f8fafc',
+          backgroundColor: '#90AB8B',
+          color: '#EBF4DD',
         },
+      },
+      stripedStyle: {
+        backgroundColor: '#f5f9f3',
       },
     },
   };
 
   return (
-    <div className="p-7 max-w-7xl mx-auto">
+    <div className="p-7 max-w-7xl mx-auto bg-white min-h-screen">
       {/* Error Popup */}
       {errorPopup.show && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{errorPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-500 text-red-800 px-6 py-4 rounded-lg shadow-xl flex items-center gap-3 animate-slide-in-top z-50">
+          <span className="font-semibold">{errorPopup.message}</span>
           <button
             onClick={() => setErrorPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-red-600 hover:text-red-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -322,11 +330,11 @@ const Loaded_list = () => {
 
       {/* Success Popup */}
       {successPopup.show && (
-        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{successPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-500 text-green-800 px-6 py-4 rounded-lg shadow-xl flex items-center gap-3 animate-slide-in-top z-50">
+          <span className="font-semibold">{successPopup.message}</span>
           <button
             onClick={() => setSuccessPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-green-600 hover:text-green-800 transition-colors"
           >
             <FaTimes />
           </button>
@@ -334,37 +342,37 @@ const Loaded_list = () => {
       )}
 
       {/* Header Section with Form */}
-      <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 mb-6">
-        <h1 className="text-2xl font-bold text-gray-300 mb-4">Loaded Report</h1>
+      <div className="bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] rounded-2xl shadow-2xl p-6 mb-6">
+        <h1 className="text-3xl font-bold text-[#EBF4DD] mb-6 drop-shadow-md">Loaded Report</h1>
         <form onSubmit={handleSubmit} className="flex flex-wrap items-end gap-4">
           <div className="flex flex-col">
-            <label htmlFor="fromDate" className="text-gray-300 mb-1">From Date</label>
+            <label htmlFor="fromDate" className="text-[#EBF4DD] mb-2 font-semibold">From Date</label>
             <DatePicker
               id="fromDate"
               selected={fromDate}
               onChange={date => setFromDate(date)}
-              className="px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+              className="px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#90AB8B] transition-all duration-300"
               placeholderText="From Date"
             />
           </div>
           
           <div className="flex flex-col">
-            <label htmlFor="toDate" className="text-gray-300 mb-1">To Date</label>
+            <label htmlFor="toDate" className="text-[#EBF4DD] mb-2 font-semibold">To Date</label>
             <DatePicker
               id="toDate"
               selected={toDate}
               onChange={date => setToDate(date)}
-              className="px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+              className="px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#90AB8B] transition-all duration-300"
               placeholderText="To Date"
             />
           </div>
 
           <div className="flex flex-col">
-            <label className="text-transparent mb-1">Actions</label>
+            <label className="text-transparent mb-2 font-semibold">Actions</label>
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="px-8 py-2 rounded-md bg-gray-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-teal-500 flex items-center justify-center"
+                className="px-8 py-3 rounded-lg bg-[#EBF4DD] text-[#3B4953] font-bold transition duration-300 hover:bg-white hover:shadow-lg border-2 border-[#90AB8B] hover:border-[#5A7863] flex items-center justify-center"
               >
                 Apply Filters
               </button>
@@ -373,7 +381,7 @@ const Loaded_list = () => {
                 <button
                   type="button"
                   onClick={handleResetFilters}
-                  className="px-8 py-2 rounded-md bg-red-500 text-white font-bold transition duration-200 hover:bg-white hover:text-black border-2 border-transparent hover:border-red-500 flex items-center justify-center"
+                  className="px-8 py-3 rounded-lg bg-gradient-to-r from-[#5A7863] to-[#3B4953] text-[#EBF4DD] font-bold transition duration-300 hover:from-[#3B4953] hover:to-[#5A7863] hover:shadow-lg flex items-center justify-center"
                 >
                   Reset Filters
                 </button>
@@ -384,13 +392,13 @@ const Loaded_list = () => {
       </div>
 
       {/* Replace the existing table section with DataTable */}
-      <div className={`bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 ${
+      <div className={`bg-white rounded-lg shadow-2xl overflow-hidden border-2 border-[#5A7863] transition-all duration-300 ${
         isFullScreen ? 'fixed inset-0 z-50' : ''
       }`}>
-        <div className="p-4 bg-gray-50 border-b flex justify-between items-center">
+        <div className="p-4 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] border-b flex justify-between items-center">
           <button
             onClick={toggleFullScreen}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-300"
+            className="flex items-center gap-2 bg-[#EBF4DD] hover:bg-white text-[#3B4953] px-4 py-2 rounded-lg transition duration-300 font-semibold shadow-md hover:shadow-lg"
           >
             {isFullScreen ? <FaCompressAlt /> : <FaExpandAlt />}
             {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
@@ -411,18 +419,18 @@ const Loaded_list = () => {
             onChangeRowsPerPage={handlePerPageChange}
             progressPending={isLoading}
             progressComponent={
-              <div className="py-8 text-center text-gray-500">
+              <div className="py-8 text-center text-[#5A7863]">
                 <div className="flex flex-col items-center justify-center">
-                  <FaSpinner className="animate-spin text-2xl mb-2" />
-                  <span className="font-medium">Loading tokens...</span>
+                  <FaSpinner className="animate-spin text-3xl mb-3" />
+                  <span className="font-semibold text-lg">Loading tokens...</span>
                 </div>
               </div>
             }
             noDataComponent={
-              <div className="py-8 text-center text-gray-500 text-lg">
+              <div className="py-8 text-center text-[#5A7863]">
                 <div className="flex flex-col items-center justify-center">
-                  <span className="font-medium">No data available</span>
-                  <span className="text-sm text-gray-400 mt-1">Select date range to view records</span>
+                  <span className="font-semibold text-lg">No data available</span>
+                  <span className="text-sm text-[#90AB8B] mt-2">Select date range to view records</span>
                 </div>
               </div>
             }

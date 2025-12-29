@@ -13,7 +13,7 @@ const Home = () => {
   };
 
   return (
-    <main className="min-h-screen flex flex-col">
+    <main className="min-h-screen flex flex-col bg-gradient-to-br from-[#EBF4DD] to-white">
       <Nav />
       <section className='lg:pt-[120px] md:pt-[100px] sm:pt-[72px] pt-[72px]'>
         <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />

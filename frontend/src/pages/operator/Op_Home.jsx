@@ -954,22 +954,32 @@ const formatDateTime = (dateString) => {
   const customStyles = {
     headRow: {
       style: {
-        backgroundColor: '#f1f5f9',
+        backgroundColor: '#5A7863',
+        color: '#EBF4DD',
         fontWeight: 'bold',
+        fontSize: '14px',
       },
     },
     rows: {
       style: {
         minHeight: '60px',
+        backgroundColor: '#EBF4DD',
+        color: '#3B4953',
+        '&:nth-of-type(odd)': {
+          backgroundColor: '#ffffff',
+        },
         '&:hover': {
-          backgroundColor: '#f8fafc',
+          backgroundColor: '#90AB8B',
+          color: '#3B4953',
+          transition: 'all 0.3s ease',
         },
       },
     },
     pagination: {
       style: {
         border: 'none',
-        backgroundColor: '#f8fafc',
+        backgroundColor: '#EBF4DD',
+        color: '#3B4953',
       },
     },
   };
@@ -977,12 +987,12 @@ const formatDateTime = (dateString) => {
   return (
     <div className="p-7 max-w-7xl mx-auto">
       {successPopup.show && (
-        <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-green-50 to-green-100 border-l-4 border-green-500 text-green-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
           <FaCheckCircle />
-          <span>{successPopup.message}</span>
+          <span className="font-medium">{successPopup.message}</span>
           <button
             onClick={() => setSuccessPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-green-800 hover:text-green-600 transition-colors"
           >
             <FaTimes />
           </button>
@@ -990,11 +1000,11 @@ const formatDateTime = (dateString) => {
       )}
 
       {errorPopup.show && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
-          <span>{errorPopup.message}</span>
+        <div className="fixed top-4 right-4 bg-gradient-to-r from-red-50 to-red-100 border-l-4 border-red-500 text-red-800 px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 animate-slide-in-top z-50">
+          <span className="font-medium">{errorPopup.message}</span>
           <button
             onClick={() => setErrorPopup({ show: false, message: '' })}
-            className="text-white hover:text-gray-200 transition-colors"
+            className="text-red-800 hover:text-red-600 transition-colors"
           >
             <FaTimes />
           </button>
@@ -1003,19 +1013,15 @@ const formatDateTime = (dateString) => {
 
       <button 
         onClick={handleAddToken}
-        style={buttonStyle}
-        onMouseOver={(e) => Object.assign(e.target.style, buttonHoverStyle)}
-        onMouseOut={(e) => Object.assign(e.target.style, buttonStyle)}
-        onMouseDown={(e) => Object.assign(e.target.style, buttonActiveStyle)}
-        onMouseUp={(e) => Object.assign(e.target.style, buttonHoverStyle)}
+        className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#5A7863] via-[#90AB8B] to-[#5A7863] text-[#EBF4DD] font-bold text-lg transition duration-300 hover:from-[#3B4953] hover:to-[#3B4953] hover:shadow-lg transform hover:-translate-y-1"
       >
         Add Print Token
       </button>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 overflow-y-auto">
-          <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 w-[800px] my-20 mx-auto">
-            <h2 className="text-2xl font-bold text-gray-300 mb-4">Add New Token</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-b from-[#EBF4DD] to-white rounded-2xl shadow-2xl p-6 w-[800px] max-h-[90vh] overflow-y-auto mx-auto border-2 border-[#90AB8B]">
+            <h2 className="text-2xl font-bold text-[#3B4953] mb-4 pb-3 border-b-2 border-[#90AB8B]">Add New Token</h2>
             <form 
               onSubmit={handleSubmitClick} 
               autoComplete="off" 
@@ -1024,37 +1030,37 @@ const formatDateTime = (dateString) => {
               <div className="grid grid-cols-2 gap-4">
                 {/* Update all input containers to have consistent styling */}
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">User</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">User</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="text"
                       value={formData.username || ''}
-                      className="block w-full px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none cursor-not-allowed opacity-70"
+                      className="block w-full px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none cursor-not-allowed opacity-70"
                       disabled
                     />
                   </div>
                 </div>
 
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Route</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Route</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="text"
                       value={formData.route || ''}
-                      className="block w-full px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none cursor-not-allowed opacity-70"
+                      className="block w-full px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none cursor-not-allowed opacity-70"
                       disabled
                     />
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Driver Name</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Name</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="text" 
                       name="driverName"
                       value={formData.driverName}
                       onChange={handleInputChange}
-                      className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                       required
                       autoComplete="nope"
                       readOnly
@@ -1063,7 +1069,7 @@ const formatDateTime = (dateString) => {
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Driver Mobile</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Mobile</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="tel" 
@@ -1073,7 +1079,7 @@ const formatDateTime = (dateString) => {
                       maxLength={10}
                       pattern="[0-9]{10}"
                       title="Please enter a valid 10-digit mobile number"
-                      className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                       required
                       autoComplete="nope"
                       readOnly
@@ -1082,14 +1088,14 @@ const formatDateTime = (dateString) => {
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Vehicle No</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle No</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="text" 
                       name="vehicleNo"
                       value={formData.vehicleNo}
                       onChange={handleInputChange}
-                      className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                       required
                       autoComplete="nope"
                       readOnly
@@ -1098,13 +1104,13 @@ const formatDateTime = (dateString) => {
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Vehicle Type</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle Type</label>
                   <div className="inline-block relative w-full">
                     <select
                       name="vehicleType"
                       value={formData.vehicleType}
                       onChange={handleInputChange}
-                      className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300 appearance-none"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300 appearance-none"
                       required
                     >
                       <option value="">Select Vehicle Type</option>
@@ -1112,13 +1118,13 @@ const formatDateTime = (dateString) => {
                         <option 
                           key={index} 
                           value={vehicle.vehicleType}
-                          className="text-gray-300 bg-gray-900"
+                          className="text-[#3B4953] bg-[#EBF4DD]"
                         >
                           {vehicle.vehicleType}
                         </option>
                       ))}
                     </select>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#5A7863]">
                       <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                       </svg>
@@ -1126,18 +1132,18 @@ const formatDateTime = (dateString) => {
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Vehicle Rate</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle Rate</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="text"
                       value={formData.vehicleRate}
-                      className="block w-full px-4 py-3 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none cursor-not-allowed opacity-70"
+                      className="block w-full px-4 py-3 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none cursor-not-allowed opacity-70"
                       disabled
                     />
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Quantity</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
                   <div className="inline-block relative w-full">
                     {formData.quantity === "0" ? (
                       <input
@@ -1146,7 +1152,7 @@ const formatDateTime = (dateString) => {
                         value={formData.quantity}
                         onChange={handleInputChange}
                         min="0"
-                        className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                        className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                         required
                       />
                     ) : (
@@ -1154,7 +1160,7 @@ const formatDateTime = (dateString) => {
                         name="quantity"
                         value={formData.quantity}
                         onChange={handleInputChange}
-                        className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300 appearance-none"
+                        className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300 appearance-none"
                         required
                       >
                         {quantityOptions.map((qty, index) => (
@@ -1162,7 +1168,7 @@ const formatDateTime = (dateString) => {
                             key={index} 
                             value={qty === "Select Quantity" ? "" : qty}
                             disabled={qty === "Select Quantity"}
-                            className={`${qty === "Select Quantity" ? "text-gray-500" : "text-gray-300"} bg-gray-900`}
+                            className={`${qty === "Select Quantity" ? "text-gray-500" : "text-[#3B4953]"} bg-[#EBF4DD]`}
                           >
                             {qty}
                           </option>
@@ -1172,14 +1178,14 @@ const formatDateTime = (dateString) => {
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Place</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Place</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="text" 
                       name="place"
                       value={formData.place}
                       onChange={handleInputChange}
-                      className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                       autoComplete="nope"
                       readOnly
                       onFocus={(e) => e.target.removeAttribute('readOnly')}
@@ -1187,14 +1193,14 @@ const formatDateTime = (dateString) => {
                   </div>
                 </div>
                 <div className="relative">
-                  <label className="block text-gray-300 text-sm font-bold mb-2">Chalaan Pin</label>
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Chalaan Pin</label>
                   <div className="inline-block relative w-full">
                     <input 
                       type="text" 
                       name="chalaanPin"
                       value={formData.chalaanPin}
                       onChange={handleInputChange}
-                      className="block w-full px-4 py-3 pr-10 bg-gray-900 text-gray-300 rounded-lg border border-gray-700 focus:outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all duration-300"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                       autoComplete="nope"
                       readOnly
                       onFocus={(e) => e.target.removeAttribute('readOnly')}
@@ -1202,17 +1208,17 @@ const formatDateTime = (dateString) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end space-x-3 mt-4">
+              <div className="flex justify-end space-x-3 mt-6 pt-4 border-t-2 border-[#90AB8B]">
                 <button 
                   type="button"
                   onClick={handleCancelClick}
-                  className="px-6 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-6 py-2.5 bg-gradient-to-r from-gray-400 to-gray-500 text-white rounded-lg hover:from-gray-500 hover:to-gray-600 transition-all duration-300 font-medium"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] text-[#EBF4DD] rounded-lg hover:from-[#5A7863] hover:to-[#3B4953] transition-all duration-300 font-bold"
                 >
                   Submit
                 </button>
@@ -1224,13 +1230,13 @@ const formatDateTime = (dateString) => {
 
       {showSubmitConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[99999]">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-            <h2 className="text-xl font-bold mb-4">Confirm Submission</h2>
-            <p className="text-gray-600 mb-6">Are you sure you want to submit this token?</p>
+          <div className="bg-gradient-to-b from-[#EBF4DD] to-white rounded-lg p-6 max-w-sm w-full mx-4 border-2 border-[#90AB8B] shadow-2xl">
+            <h2 className="text-xl font-bold mb-4 text-[#3B4953] pb-2 border-b-2 border-[#90AB8B]">Confirm Submission</h2>
+            <p className="text-[#5A7863] mb-6 font-medium">Are you sure you want to submit this token?</p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowSubmitConfirm(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-gray-300 to-gray-400 text-[#3B4953] rounded hover:from-gray-400 hover:to-gray-500 transition-all duration-300 font-medium"
                 disabled={isSubmitting}
               >
                 Cancel
@@ -1238,10 +1244,10 @@ const formatDateTime = (dateString) => {
               <button
                 onClick={confirmSubmit}
                 disabled={isSubmitting}
-                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors flex items-center justify-center min-w-[80px]"
+                className="px-4 py-2 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] text-[#EBF4DD] rounded hover:from-[#5A7863] hover:to-[#3B4953] transition-all duration-300 flex items-center justify-center min-w-[80px] font-bold"
               >
                 {isSubmitting ? (
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#EBF4DD]"></div>
                 ) : (
                   'Submit'
                 )}
@@ -1253,19 +1259,19 @@ const formatDateTime = (dateString) => {
 
       {showCancelConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-          <div className="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
-            <h2 className="text-xl font-bold mb-4">Confirm Cancel</h2>
-            <p className="text-gray-600 mb-6">Are you sure you want to cancel? All entered data will be lost.</p>
+          <div className="bg-gradient-to-b from-[#EBF4DD] to-white rounded-lg p-6 max-w-sm w-full mx-4 border-2 border-[#90AB8B] shadow-2xl">
+            <h2 className="text-xl font-bold mb-4 text-[#3B4953] pb-2 border-b-2 border-[#90AB8B]">Confirm Cancel</h2>
+            <p className="text-[#5A7863] mb-6 font-medium">Are you sure you want to cancel? All entered data will be lost.</p>
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setShowCancelConfirm(false)}
-                className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] text-[#EBF4DD] rounded hover:from-[#5A7863] hover:to-[#3B4953] transition-all duration-300 font-medium"
               >
                 No, Keep Editing
               </button>
               <button
                 onClick={handleCancelConfirm}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded hover:from-red-600 hover:to-red-700 transition-all duration-300 font-bold"
               >
                 Yes, Cancel
               </button>
@@ -1274,7 +1280,7 @@ const formatDateTime = (dateString) => {
         </div>
       )}
 
-      <div className="bg-white rounded-lg shadow-lg overflow-x-auto mt-6">
+      <div className="bg-[#EBF4DD] rounded-lg shadow-lg overflow-x-auto mt-6 border-2 border-[#90AB8B]">
         <DataTable
           columns={columns}
           data={entries}
@@ -1289,8 +1295,8 @@ const formatDateTime = (dateString) => {
           progressPending={loading}
           progressComponent={
             <div className="flex justify-center items-center gap-2 p-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-              <span className="text-gray-500">Loading tokens...</span>
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#5A7863]"></div>
+              <span className="text-[#5A7863] font-medium">Loading tokens...</span>
             </div>
           }
           customStyles={customStyles}
