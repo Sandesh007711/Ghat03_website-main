@@ -38,39 +38,9 @@ const Content = () => {
   const [routes, setRoutes] = useState([]);
   const [users, setUsers] = useState([]);
 
-  // Modify generateQuantityOptions to only include predefined values
-  const generateQuantityOptions = () => {
-//20/02/25
-    
-    const options = ["Select Quantity", "0"];
-    for (let i = 50; i <= 1000; i += 50) {
-      options.push(i.toString());
-    }
-    return options;
-  };
-
-  const quantityOptions = generateQuantityOptions();
-
   // Update handleInputChange for quantity
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-//20/02/25
-    // Special handling for quantity field
-    if (name === 'quantity') {
-      if (value === 'Select Quantity') {
-        setFormData(prev => ({ ...prev, quantity: '' }));
-        return;
-      }
-      // Ensure empty string and zero are handled properly
-      const numValue = value === '' ? '' : Number(value);
-      if (!isNaN(numValue)) {
-        setFormData(prev => ({
-          ...prev,
-          quantity: numValue.toString()
-        }));
-      }
-      return;
-    }
 
     if (name === 'vehicleType') {
       if (value === '') {
@@ -97,7 +67,6 @@ const Content = () => {
     }
 
     if (name === 'vehicleRate' && value === 'Select Rate') return;
-    if (name === 'quantity' && value === 'Select Quantity') return;
 
     if (name === 'driverMobile') {
       const onlyNums = value.replace(/[^0-9]/g, '');
@@ -158,7 +127,7 @@ const Content = () => {
         driverMobileNo: parseInt(formData.driverMobile),
         vehicleNo: formData.vehicleNo.trim(),
         vehicleId: formData.vehicleId,
-        quantity: formData.quantity === "0" ? 0 : Number(formData.quantity), // Handle zero explicitly
+        quantity: formData.quantity.trim(), // Support both text and numbers
         place: formData.place.trim() || undefined,
         challanPin: formData.chalaanPin || undefined,
         route: formData.route
@@ -170,13 +139,8 @@ const Content = () => {
       );
   
       // Now validate all required fields
-      const requiredFields = ['userId', 'driverName', 'driverMobileNo', 'vehicleNo', 'vehicleId', 'route'];
+      const requiredFields = ['userId', 'driverName', 'driverMobileNo', 'vehicleNo', 'vehicleId', 'route', 'quantity'];
       const missingFields = requiredFields.filter(field => !submitData[field]);
-      
-      // Special check for quantity that allows zero
-      if (submitData.quantity === undefined || submitData.quantity === '' || isNaN(submitData.quantity)) {
-        missingFields.push('quantity');
-      }
   
       if (missingFields.length > 0) {
         throw new Error(`Please fill in all required fields: ${missingFields.join(', ')}`);
@@ -436,29 +400,15 @@ const Content = () => {
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
-                  {formData.quantity === "0" ? (
-                    <input
-                      type="number"
-                      name="quantity"
-                      value={formData.quantity}
-                      onChange={handleInputChange}
-                      min="0"
-                      className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
-                      required
-                    />
-                  ) : (
-                    <select
-                      name="quantity"
-                      value={formData.quantity}
-                      onChange={handleInputChange}
-                      className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
-                      required
-                    >
-                      {quantityOptions.map((qty, index) => (
-                        <option key={index} value={qty}>{qty}</option>
-                      ))}
-                    </select>
-                  )}
+                  <input
+                    type="text"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleInputChange}
+                    placeholder="Enter quantity (text or number)"
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
+                    required
+                  />
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Route</label>
