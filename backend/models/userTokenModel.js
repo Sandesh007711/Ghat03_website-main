@@ -37,7 +37,7 @@ const UserTokenSchema = new mongoose.Schema({
         // unique: [true, 'Route should be unique'],
     },
     quantity: {
-        type: Number,
+        type: mongoose.Schema.Types.Mixed,
         required: [true, 'Please provide quantity.']
     },
     place: {

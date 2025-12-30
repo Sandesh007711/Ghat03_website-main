@@ -85,17 +85,6 @@ const Op_Home = () => {
     transform: 'translateY(0)'
   };
 
-  // Modify generateQuantityOptions function
-  const generateQuantityOptions = () => {
-    const options = [];
-    for (let i = 0; i <= 1000; i += 50) {
-      options.push(i.toString());
-    }
-    return ["Select Quantity", ...options];
-  };
-
-  const quantityOptions = generateQuantityOptions();
-
   useEffect(() => {
     const setLoggedInUserData = () => {
       try {
@@ -193,19 +182,6 @@ const Op_Home = () => {
       return;
     }
 
-    // Special handling for quantity field
-    if (name === 'quantity') {
-      if (value === 'Select Quantity') {
-        setFormData(prev => ({ ...prev, quantity: '' }));
-        return;
-      }
-      setFormData(prev => ({
-        ...prev,
-        quantity: value
-      }));
-      return;
-    }
-
     if (name === 'vehicleType') {
       const selectedVehicle = vehicleRates.find(v => v.vehicleType === value);
       if (selectedVehicle) {
@@ -222,10 +198,6 @@ const Op_Home = () => {
     }
 
     if (name === 'vehicleRate' && value === 'Select Rate') {
-      return; // Don't update state if default option is selected
-    }
-
-    if (name === 'quantity' && value === 'Select Quantity') {
       return; // Don't update state if default option is selected
     }
 
@@ -277,8 +249,8 @@ const Op_Home = () => {
     }
 
     // Updated quantity validation
-    if (formData.quantity === '' || formData.quantity === 'Select Quantity') {
-      showError('Please select a quantity');
+    if (!formData.quantity || formData.quantity.trim() === '') {
+      showError('Please enter a quantity');
       return;
     }
 
@@ -373,12 +345,6 @@ const Op_Home = () => {
         throw new Error('Please select a valid vehicle type');
       }
 
-      // Ensure quantity is properly parsed as an integer
-      const quantity = parseInt(formData.quantity);
-      if (isNaN(quantity)) {
-        throw new Error('Invalid quantity value');
-      }
-
       const submitData = {
         userId: formData.userId,
         vehicleId: selectedVehicle.vehicleId || selectedVehicle._id, // Add fallback to _id
@@ -387,7 +353,7 @@ const Op_Home = () => {
         vehicleNo: formData.vehicleNo.trim(),
         vehicleType: formData.vehicleType,
         vehicleRate: parseInt(formData.vehicleRate),
-        quantity: formData.quantity === "0" ? 0 : parseInt(formData.quantity), // Handle zero explicitly
+        quantity: formData.quantity.trim(), // Support both text and numbers
         place: formData.place.trim() || undefined,
         challanPin: formData.chalaanPin ? formData.chalaanPin : undefined,
         route: formData.route
@@ -1144,36 +1110,18 @@ const Op_Home = () => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
                   <div className="inline-block relative w-full">
-                    {formData.quantity === "0" ? (
-                      <input
-                        type="number"
-                        name="quantity"
-                        value={formData.quantity}
-                        onChange={handleInputChange}
-                        min="0"
-                        className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
-                        required
-                      />
-                    ) : (
-                      <select
-                        name="quantity"
-                        value={formData.quantity}
-                        onChange={handleInputChange}
-                        className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300 appearance-none"
-                        required
-                      >
-                        {quantityOptions.map((qty, index) => (
-                          <option
-                            key={index}
-                            value={qty === "Select Quantity" ? "" : qty}
-                            disabled={qty === "Select Quantity"}
-                            className={`${qty === "Select Quantity" ? "text-gray-500" : "text-[#3B4953]"} bg-[#EBF4DD]`}
-                          >
-                            {qty}
-                          </option>
-                        ))}
-                      </select>
-                    )}
+                    <input
+                      type="text"
+                      name="quantity"
+                      value={formData.quantity}
+                      onChange={handleInputChange}
+                      placeholder="Enter quantity (text or number)"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
+                      required
+                      autoComplete="nope"
+                      readOnly
+                      onFocus={(e) => e.target.removeAttribute('readOnly')}
+                    />
                   </div>
                 </div>
                 <div className="relative">
