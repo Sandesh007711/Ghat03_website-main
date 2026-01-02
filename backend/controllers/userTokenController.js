@@ -17,6 +17,22 @@ const getLocalDate = () => {
     return formatter.format(new Date());
 };
 
+// Utility helper for date range query
+const getDateRangeQuery = (dateFrom, dateTo) => {
+    if (!dateFrom || !dateTo) return {};
+
+    const start = new Date(dateFrom);
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date(dateTo);
+    end.setHours(23, 59, 59, 999);
+
+    return {
+        $gte: start,
+        $lte: end
+    };
+};
+
 // create printToken logic fix
 exports.createToken = catchAsync(async (req, res, next) => {
     const { vehicleId, userId } = req.body;
@@ -59,7 +75,7 @@ exports.createToken = catchAsync(async (req, res, next) => {
 
         // Generate the token number
         const uniqueToken = `${user.username.toUpperCase()}${dailyTokensCount.toString().padStart(2, "0")}`;
-    
+
         // Create the token
         await UserToken.create([
             {
@@ -79,7 +95,7 @@ exports.createToken = catchAsync(async (req, res, next) => {
                 updatedAt: null,
             }
         ], { session });
-        
+
         // Update the user's token data in user main table
         await User.findByIdAndUpdate(userId,
             {
@@ -87,16 +103,16 @@ exports.createToken = catchAsync(async (req, res, next) => {
                     'tokenData.dailyTokens.date': dailyTokensDate,
                     'tokenData.dailyTokens.count': dailyTokensCount,
                 },
-                $inc: { 
+                $inc: {
                     'tokenData.totalTokens': 1
                 },
             },
             { session }
         );
-    
+
         await session.commitTransaction();
         session.endSession();
-    
+
         res.status(200).json({
             status: 'success',
             message: 'Print Token has been created successfully.'
@@ -116,63 +132,55 @@ exports.getAllTokens = catchAsync(async (req, res) => {
     let filter = {
         deletedAt: null  // Add this line to exclude deleted tokens
     };
-    
-    if(role !== 'admin') {
-        filter.userId =  req.user.id
+
+    if (role !== 'admin') {
+        filter.userId = req.user.id
     }
 
-    if(role === 'admin') {
-        if(user) {
+    if (role === 'admin') {
+        if (user) {
             filter.userId = user
         }
 
-        if(loaded) {
+        if (loaded) {
             filter.isLoaded = {}
             filter.isLoaded.$eq = true
 
-            if(dateFrom && dateTo) {
-                filter.loadedAt = {}
-                filter.loadedAt.$gte = dateFrom
-                filter.loadedAt.$lte = dateTo
+            if (dateFrom && dateTo) {
+                filter.loadedAt = getDateRangeQuery(dateFrom, dateTo);
             }
         } else if (updated) {
             filter.updatedAt = {}
             filter.updatedAt.$ne = null
 
-            if(dateFrom && dateTo) {
-                filter.updatedAt.$gte = dateFrom
-                filter.updatedAt.$lte = dateTo
+            if (dateFrom && dateTo) {
+                filter.updatedAt = getDateRangeQuery(dateFrom, dateTo);
             }
         } else if (deleted) {
             filter.deletedAt = {}
             filter.deletedAt.$ne = null
 
-            if(dateFrom && dateTo) {
-                filter.deletedAt.$gte = dateFrom
-                filter.deletedAt.$lte = dateTo
+            if (dateFrom && dateTo) {
+                filter.deletedAt = getDateRangeQuery(dateFrom, dateTo);
             }
         } else {
-            if(dateFrom && dateTo) {
-                filter.createdAt = {}
-                filter.createdAt.$gte = dateFrom
-                filter.createdAt.$lte = dateTo
+            if (dateFrom && dateTo) {
+                filter.createdAt = getDateRangeQuery(dateFrom, dateTo);
             }
         }
     }
-//added by abhinav, filter for operator
-    if(role === 'operator') {
-        if(dateFrom && dateTo) {
-            filter.createdAt = {}
-            filter.createdAt.$gte = dateFrom
-            filter.createdAt.$lte = dateTo
+    //added by abhinav, filter for operator
+    if (role === 'operator') {
+        if (dateFrom && dateTo) {
+            filter.createdAt = getDateRangeQuery(dateFrom, dateTo);
         }
     }
 
     const totalCount = await UserToken.countDocuments(filter);
     // Modified by Abhinav: Using default sort from APIfeatures
-    const features = new APIfeatures(UserToken.find(filter).populate('userId', {_id: 0, 'username': 1}), req.query)
-                    .sort()
-                    .paginate()
+    const features = new APIfeatures(UserToken.find(filter).populate('userId', { _id: 0, 'username': 1 }), req.query)
+        .sort()
+        .paginate()
 
     const data = await features.query
 
@@ -190,10 +198,10 @@ exports.getToken = factory.getOne(UserToken);
 // update printToken
 exports.updateToken = catchAsync(async (req, res, next) => {
     const { id } = req.params;
-    const { vehicleId, updateRate } = req.body;    
+    const { vehicleId, updateRate } = req.body;
 
     const token = await UserToken.findById({ _id: id })
-    if(!token) {
+    if (!token) {
         return next(new AppError('Print Token not found', 400))
     }
 
@@ -215,7 +223,7 @@ exports.updateToken = catchAsync(async (req, res, next) => {
     token.challanPin = req.body.challanPin ? req.body.challanPin : token.challanPin
     token.route = req.body.route ? req.body.route : token.route
     token.updatedAt = new Date(),
-    token.updatedBy = req.user.username
+        token.updatedBy = req.user.username
 
     token.save()
 
@@ -280,7 +288,7 @@ exports.deleteToken = catchAsync(async (req, res, next) => {
 });
 
 exports.getUpdatedTokens = catchAsync(async (req, res) => {
-    const data = await UserToken.find({ updatedAt: { $ne: null } }).populate('vehicleId', {_id: 0, 'vehicleType': 1}).populate('userId', {_id: 0, 'username': 1})
+    const data = await UserToken.find({ updatedAt: { $ne: null } }).populate('vehicleId', { _id: 0, 'vehicleType': 1 }).populate('userId', { _id: 0, 'username': 1 })
 
     res.status(200).json({
         status: 'success',
@@ -295,13 +303,13 @@ exports.exitToken = catchAsync(async (req, res, next) => {
     // now the in the payload of exit token we are sending _id and isLoaded done by sandesh
     const { _id, isLoaded } = req.body;
     const token = await UserToken.findOne({ _id });
-    if(!token) {
+    if (!token) {
         return next(new AppError('Print Token not found', 400))
     }
-    
+
     // add validation if logged user is owner of token
-    if(loggedUserRole !== 'admin')
-        if(userId.toString() !== token.userId.toString())
+    if (loggedUserRole !== 'admin')
+        if (userId.toString() !== token.userId.toString())
             return next(new AppError('You don\'t have permission to perform this action', 401))
 
     const today = new Date();
@@ -321,8 +329,8 @@ exports.exitToken = catchAsync(async (req, res, next) => {
 exports.getLoadedList = catchAsync(async (req, res, next) => {
     const totalCount = await UserToken.find({ isLoaded: { $eq: true } }).estimatedDocumentCount();
     const features = new APIfeatures(UserToken.find({ isLoaded: { $eq: true } }), req.query)
-                    .sort()
-                    .paginate()
+        .sort()
+        .paginate()
 
     const data = await features.query
 
@@ -335,7 +343,7 @@ exports.getLoadedList = catchAsync(async (req, res, next) => {
 });
 
 exports.getDeletedTokens = catchAsync(async (req, res, next) => {
-    const data = await UserToken.find({ deletedAt: { $ne: null } }).populate('vehicleId', {_id: 0, 'vehicleType': 1}).populate('userId', {_id: 0, 'username': 1})
+    const data = await UserToken.find({ deletedAt: { $ne: null } }).populate('vehicleId', { _id: 0, 'vehicleType': 1 }).populate('userId', { _id: 0, 'username': 1 })
 
     res.status(200).json({
         status: 'success',
