@@ -17,6 +17,10 @@ const userTokenRouter = require('./routes/userTokenRoutes');
 
 const app = express();
 
+// Trust proxy for Nginx
+app.set('trust proxy', 1);
+
+
 // CORS Configuration - Must be before other middleware
 // CORS Configuration - Must be before other middleware
 const allowedOrigins = [
