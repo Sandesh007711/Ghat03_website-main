@@ -349,7 +349,7 @@ const Token_list = () => {
         vehicleId: selectedVehicle.vehicleId,
         vehicleRate: parseFloat(selectedVehicle.rate) || 0,
         updateRate: true,
-        quantity: parseInt(updatedData.quantity) || 0,
+        quantity: updatedData.quantity || '', // Support both text and numbers
         place: updatedData.place || '',
         challanPin: updatedData.challanPin || '',
         route: updatedData.route || ''
@@ -901,9 +901,10 @@ const Token_list = () => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
                   <input
-                    type="number"
+                    type="text"
                     value={updateFormData.quantity}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, quantity: e.target.value })}
+                    placeholder="Enter quantity (text or number)"
                     className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                   />
                 </div>
