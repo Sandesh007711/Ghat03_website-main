@@ -21,9 +21,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 403 && 
-        (error.response?.data?.message?.includes('deactivated') || 
-         error.response?.data?.message?.includes('locked'))) {
+    if (error.response?.status === 403 &&
+      (error.response?.data?.message?.includes('deactivated') ||
+        error.response?.data?.message?.includes('locked'))) {
       // Don't redirect if this is a login attempt - let the login page show the error
       if (!error.config?.url?.includes('/login')) {
         // Clear authentication data
@@ -174,7 +174,7 @@ export const getFilteredTokens = async (params) => {
     }
 
     const queryParams = new URLSearchParams();
-    
+
     // Add each parameter to query string
     Object.entries(params).forEach(([key, value]) => {
       if (value !== null && value !== undefined) {
@@ -331,14 +331,14 @@ export const searchUnloadedTokens = async (searchTerm) => {
   try {
     const response = await api.get(`/tokens?limit=1000`);
     const data = response.data;
-    
+
     // Extract tokens array from response
-    const tokens = Array.isArray(data) ? data : 
-                  (data.data && Array.isArray(data.data)) ? data.data :
-                  (data.tokens && Array.isArray(data.tokens)) ? data.tokens : [];
-    
+    const tokens = Array.isArray(data) ? data :
+      (data.data && Array.isArray(data.data)) ? data.data :
+        (data.tokens && Array.isArray(data.tokens)) ? data.tokens : [];
+
     // Filter and sort tokens
-    const filteredTokens = tokens.filter(t => 
+    const filteredTokens = tokens.filter(t =>
       t.tokenNo.toLowerCase().includes(searchTerm.toLowerCase()) &&
       !t.isLoaded &&
       !t.deletedAt
@@ -388,21 +388,25 @@ export const getCurrentUser = () => {
 export const getTokenReport = async (params = {}) => {
   try {
     const { page = 1, limit = 20, fromDate, toDate } = params;
-    
+
     const queryParams = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString()
     });
 
     if (fromDate) {
-      queryParams.append('dateFrom', fromDate.toISOString().split('T')[0]);
+      const fromOffset = fromDate.getTimezoneOffset() * 60000;
+      const localFrom = new Date(fromDate.getTime() - fromOffset);
+      queryParams.append('dateFrom', localFrom.toISOString().split('T')[0]);
     }
     if (toDate) {
-      queryParams.append('dateTo', toDate.toISOString().split('T')[0]);
+      const toOffset = toDate.getTimezoneOffset() * 60000;
+      const localTo = new Date(toDate.getTime() - toOffset);
+      queryParams.append('dateTo', localTo.toISOString().split('T')[0]);
     }
 
     const response = await api.get(`/tokens?${queryParams}`);
-    
+
     if (response.data?.status === 'success') {
       const processedTokens = response.data.data.map(token => ({
         ...token,
@@ -416,7 +420,7 @@ export const getTokenReport = async (params = {}) => {
         totalCount: response.data.totalCount || 0
       };
     }
-    
+
     throw new Error('Invalid response format');
   } catch (error) {
     throw error.response?.data || { message: 'Failed to fetch token report' };

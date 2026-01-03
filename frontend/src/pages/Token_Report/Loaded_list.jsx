@@ -46,15 +46,22 @@ const Loaded_list = () => {
       };
 
       // Add date filters if they exist
+      // Add date filters if they exist
       if (searchParams.fromDate) {
-        params.dateFrom = searchParams.fromDate.toISOString().split('T')[0];
+        // Create local date string YYYY-MM-DD
+        const fromOffset = searchParams.fromDate.getTimezoneOffset() * 60000;
+        const localFrom = new Date(searchParams.fromDate.getTime() - fromOffset);
+        params.dateFrom = localFrom.toISOString().split('T')[0];
       }
       if (searchParams.toDate) {
-        params.dateTo = searchParams.toDate.toISOString().split('T')[0];
+        // Create local date string YYYY-MM-DD
+        const toOffset = searchParams.toDate.getTimezoneOffset() * 60000;
+        const localTo = new Date(searchParams.toDate.getTime() - toOffset);
+        params.dateTo = localTo.toISOString().split('T')[0];
       }
 
       const result = await getLoadedTokens(params);
-      
+
       if (result.status === 'success') {
         const processedTokens = result.data.map(token => ({
           ...token,
@@ -65,7 +72,7 @@ const Loaded_list = () => {
         setFilteredData(processedTokens);
         setTotalRows(result.totalCount || 0);
         setCurrentPage(newPage);
-        
+
         if (processedTokens.length > 0) {
           showSuccess(`Found ${result.totalCount} matching records`);
         } else {
@@ -136,7 +143,7 @@ const Loaded_list = () => {
       fromDate: fromDate,
       toDate: toDate
     } : {};
-    
+
     const success = await fetchTokenData(searchParams, page);
     if (!success) {
       showError('Failed to load page data');
@@ -145,12 +152,12 @@ const Loaded_list = () => {
 
   const handlePerPageChange = async (newPerPage, page) => {
     setPerPage(newPerPage);
-    
+
     const searchParams = isFiltered ? {
       fromDate: fromDate,
       toDate: toDate
     } : {};
-    
+
     const success = await fetchTokenData(searchParams, page);
     if (!success) {
       showError('Failed to update rows per page');
@@ -355,7 +362,7 @@ const Loaded_list = () => {
               placeholderText="From Date"
             />
           </div>
-          
+
           <div className="flex flex-col">
             <label htmlFor="toDate" className="text-[#EBF4DD] mb-2 font-semibold">To Date</label>
             <DatePicker
@@ -376,7 +383,7 @@ const Loaded_list = () => {
               >
                 Apply Filters
               </button>
-              
+
               {isFiltered && (
                 <button
                   type="button"
@@ -392,9 +399,8 @@ const Loaded_list = () => {
       </div>
 
       {/* Replace the existing table section with DataTable */}
-      <div className={`bg-white rounded-lg shadow-2xl overflow-hidden border-2 border-[#5A7863] transition-all duration-300 ${
-        isFullScreen ? 'fixed inset-0 z-50' : ''
-      }`}>
+      <div className={`bg-white rounded-lg shadow-2xl overflow-hidden border-2 border-[#5A7863] transition-all duration-300 ${isFullScreen ? 'fixed inset-0 z-50' : ''
+        }`}>
         <div className="p-4 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] border-b flex justify-between items-center">
           <button
             onClick={toggleFullScreen}
@@ -404,7 +410,7 @@ const Loaded_list = () => {
             {isFullScreen ? 'Exit Full Screen' : 'Full Screen'}
           </button>
         </div>
-        
+
         <div className={`${isFullScreen ? 'h-[calc(100vh-80px)] overflow-auto' : ''}`}>
           <DataTable
             columns={columns}

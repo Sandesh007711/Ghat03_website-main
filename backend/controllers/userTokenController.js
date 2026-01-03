@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const moment = require('moment-timezone');
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError')
 const UserToken = require('../models/userTokenModel')
@@ -21,23 +21,13 @@ const getLocalDate = () => {
 const getDateRangeQuery = (dateFrom, dateTo) => {
     if (!dateFrom || !dateTo) return {};
 
-    // Parse dates (assumes YYYY-MM-DD which defaults to UTC 00:00)
-    const start = new Date(dateFrom);
-    start.setHours(0, 0, 0, 0);
-
-    const end = new Date(dateTo);
-    end.setHours(23, 59, 59, 999);
-
-    // Adjust for IST (UTC + 5:30)
-    // To filter for "Jan 1 IST", we need "Dec 31 18:30 UTC" to "Jan 1 18:29 UTC"
-    // So we subtract 5 hours 30 minutes from the UTC bounds
-    const IST_OFFSET_MINUTES = 330; // 5.5 * 60
-    start.setMinutes(start.getMinutes() - IST_OFFSET_MINUTES);
-    end.setMinutes(end.getMinutes() - IST_OFFSET_MINUTES);
+    // Create timezone-aware moments for the start and end of the days in IST
+    const start = moment.tz(dateFrom, "YYYY-MM-DD", "Asia/Kolkata").startOf('day');
+    const end = moment.tz(dateTo, "YYYY-MM-DD", "Asia/Kolkata").endOf('day');
 
     return {
-        $gte: start,
-        $lte: end
+        $gte: start.toDate(), // helper converts to JS Date (UTC)
+        $lte: end.toDate()
     };
 };
 

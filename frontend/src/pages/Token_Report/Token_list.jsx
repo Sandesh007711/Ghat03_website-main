@@ -84,10 +84,16 @@ const Token_list = () => {
 
       // Add date parameters if they exist
       if (searchParams.fromDate) {
-        params.dateFrom = searchParams.fromDate.toISOString().split('T')[0];
+        // Create local date string YYYY-MM-DD
+        const fromOffset = searchParams.fromDate.getTimezoneOffset() * 60000; // offset in milliseconds
+        const localFrom = new Date(searchParams.fromDate.getTime() - fromOffset);
+        params.dateFrom = localFrom.toISOString().split('T')[0];
       }
       if (searchParams.toDate) {
-        params.dateTo = searchParams.toDate.toISOString().split('T')[0];
+        // Create local date string YYYY-MM-DD
+        const toOffset = searchParams.toDate.getTimezoneOffset() * 60000;
+        const localTo = new Date(searchParams.toDate.getTime() - toOffset);
+        params.dateTo = localTo.toISOString().split('T')[0];
       }
 
       // Add user parameter if selected - now passing only the user ID - now passing only the user ID
