@@ -419,7 +419,7 @@ const Op_Home = () => {
         mobile: entry.driverMobileNo,
         operator: entry.userId?.username,
         destination: entry.place,
-        challan: entry.chalaanPin
+        challan: entry.challanPin
       });
     };
 
@@ -457,7 +457,7 @@ const Op_Home = () => {
               <tr><td>Driver Mobile:</td><td>${entry.driverMobileNo}</td></tr>
               <tr><td>Operator:</td><td>${entry.userId?.username || 'N/A'}</td></tr>
               <tr><td>Destination:</td><td>${entry.place}</td></tr>
-              <tr><td>Challan Pin:</td><td>${entry.chalaanPin}</td></tr>
+              <tr><td>Challan Pin:</td><td>${entry.challanPin}</td></tr>
             </table>
             <div class="qr-code">
               ${qrCodeSvg}
@@ -590,7 +590,7 @@ const Op_Home = () => {
         mobile: entry.driverMobileNo,
         operator: entry.userId?.username,
         destination: entry.place,
-        challan: entry.chalaanPin
+        challan: entry.challanPin
       });
     };
 
@@ -647,7 +647,7 @@ const Op_Home = () => {
             <div>Driver Mobile: ${entry.driverMobileNo}</div>
             <div>Operator: ${entry.userId?.username || 'N/A'}</div>
             <div>Destination: ${entry.place || 'N/A'}</div>
-            <div>Challan Pin: ${entry.chalaanPin || 'N/A'}</div>
+            <div>Challan Pin: ${entry.challanPin || 'N/A'}</div>
             <div class="divider">================================</div>
           </div>
           <div class="qr-section">
