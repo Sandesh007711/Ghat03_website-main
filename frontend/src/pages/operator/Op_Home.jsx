@@ -1110,18 +1110,26 @@ const Op_Home = () => {
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
                   <div className="inline-block relative w-full">
-                    <input
-                      type="text"
+                    <select
                       name="quantity"
                       value={formData.quantity}
                       onChange={handleInputChange}
-                      placeholder="Enter quantity (text or number)"
-                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
+                      className="block w-full px-4 py-3 pr-10 bg-[#EBF4DD] text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300 appearance-none"
                       required
-                      autoComplete="nope"
-                      readOnly
-                      onFocus={(e) => e.target.removeAttribute('readOnly')}
-                    />
+                    >
+                      <option value="">Select Quantity</option>
+                      {[...Array(60)].map((_, i) => (
+                        <option key={i + 1} value={`${i + 1} MT`}>
+                          {i + 1} MT
+                        </option>
+                      ))}
+                    </select>
+                    {/* Custom Arrow Icon (Matches Vehicle Type dropdown) */}
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#5A7863]">
+                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
                 <div className="relative">

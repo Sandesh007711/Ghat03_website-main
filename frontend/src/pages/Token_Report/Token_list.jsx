@@ -906,13 +906,18 @@ const Token_list = () => {
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
-                  <input
-                    type="text"
+                  <select
                     value={updateFormData.quantity}
                     onChange={(e) => setUpdateFormData({ ...updateFormData, quantity: e.target.value })}
-                    placeholder="Enter quantity (text or number)"
                     className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
-                  />
+                  >
+                    <option value="">Select Quantity</option>
+                    {[...Array(60)].map((_, i) => (
+                      <option key={i + 1} value={`${i + 1} MT`}>
+                        {i + 1} MT
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="flex justify-end space-x-3 mt-6">

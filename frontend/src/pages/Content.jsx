@@ -52,9 +52,9 @@ const Content = () => {
         }));
         return;
       }
-      
+
       const selectedVehicleData = vehicleTypes.find(type => type.vehicleId === value);
-      
+
       if (selectedVehicleData) {
         setFormData(prev => ({
           ...prev,
@@ -107,19 +107,19 @@ const Content = () => {
   // Update handleSubmitClick validation
   const handleSubmitClick = async (e) => {
     e.preventDefault();
-    
+
     try {
       // Basic validations
       if (!formData.driverName.trim()) {
         showError('Driver Name is required');
         return;
       }
-  
+
       if (!formData.vehicleId) {
         showError('Please select a vehicle type');
         return;
       }
-  
+
       // Prepare the data first
       const submitData = {
         userId: formData.userId,
@@ -132,16 +132,16 @@ const Content = () => {
         challanPin: formData.chalaanPin || undefined,
         route: formData.route
       };
-  
+
       // Clean undefined values
-      Object.keys(submitData).forEach(key => 
+      Object.keys(submitData).forEach(key =>
         submitData[key] === undefined && delete submitData[key]
       );
-  
+
       // Now validate all required fields
       const requiredFields = ['userId', 'driverName', 'driverMobileNo', 'vehicleNo', 'vehicleId', 'route', 'quantity'];
       const missingFields = requiredFields.filter(field => !submitData[field]);
-  
+
       if (missingFields.length > 0) {
         throw new Error(`Please fill in all required fields: ${missingFields.join(', ')}`);
       }
@@ -230,7 +230,7 @@ const Content = () => {
               .filter(user => user.route && user.role === 'operator')
               .map(user => user.route)
           )];
-          
+
           setRoutes(uniqueRoutes.map(route => ({ route })));
         }
       } catch (error) {
@@ -257,7 +257,7 @@ const Content = () => {
               route: user.route,
               role: user.role
             }));
-          
+
           setUsers(formattedUsers);
         }
       } catch (error) {
@@ -271,7 +271,7 @@ const Content = () => {
 
   // Update handleCardClick to pass the complete operator data
   const handleCardClick = (operator) => {
-    setSelectedOperator(prev => 
+    setSelectedOperator(prev =>
       prev?._id === operator._id ? null : operator
     );
   };
@@ -331,13 +331,13 @@ const Content = () => {
                         <option key={user._id} value={user._id}>
                           {user.username} - {user.route}
                         </option>
-                    ))}
+                      ))}
                   </select>
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="driverName"
                     value={formData.driverName}
                     onChange={handleInputChange}
@@ -347,8 +347,8 @@ const Content = () => {
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Driver Mobile</label>
-                  <input 
-                    type="tel" 
+                  <input
+                    type="tel"
                     name="driverMobile"
                     value={formData.driverMobile}
                     onChange={handleInputChange}
@@ -359,8 +359,8 @@ const Content = () => {
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle No</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="vehicleNo"
                     value={formData.vehicleNo}
                     onChange={handleInputChange}
@@ -388,15 +388,21 @@ const Content = () => {
 
                 {/* Replace Vehicle Rate dropdown with read-only input */}
                 <div className="relative">
-                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle Rate</label>
-                  <input 
-                    type="text"
-                    name="vehicleRate"
-                    value={formData.vehicleRate ? `₹${formData.vehicleRate}` : ''}
-                    className="px-4 py-3 w-full bg-[#EBF4DD] text-[#5A7863] rounded-lg border-2 border-[#90AB8B] focus:outline-none transition-all duration-300"
-                    readOnly
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
+                  <select
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleInputChange}
+                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
                     required
-                  />
+                  >
+                    <option value="">Select Quantity</option>
+                    {[...Array(60)].map((_, i) => (
+                      <option key={i + 1} value={`${i + 1} MT`}>
+                        {i + 1} MT
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
@@ -429,8 +435,8 @@ const Content = () => {
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Place</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="place"
                     value={formData.place}
                     onChange={handleInputChange}
@@ -439,8 +445,8 @@ const Content = () => {
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Chalaan Pin</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="chalaanPin"
                     value={formData.chalaanPin}
                     onChange={handleInputChange}
@@ -449,14 +455,14 @@ const Content = () => {
                 </div>
               </div>
               <div className="flex justify-end space-x-3 mt-6">
-                <button 
+                <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
                   className="px-6 py-2.5 bg-[#EBF4DD] text-[#5A7863] rounded-lg hover:bg-white hover:text-[#3B4953] transition-colors border-2 border-[#90AB8B] font-medium"
                 >
                   Cancel
                 </button>
-                <button 
+                <button
                   type="submit"
                   disabled={isSubmitting}
                   className="px-6 py-2.5 bg-gradient-to-r from-[#90AB8B] to-[#5A7863] text-[#EBF4DD] rounded-lg hover:from-[#5A7863] hover:to-[#3B4953] transition-all flex items-center justify-center min-w-[100px] font-medium"
@@ -496,8 +502,8 @@ const Content = () => {
                   <p className="mb-2">Total Tokens: {op.tokenData?.totalTokens || 0}</p>
                   <p className="mb-2">Daily Tokens: {op.tokenData?.dailyTokens?.count || 0}</p>
                   <p className="mb-2">Route: {op.route || 'N/A'}</p>
-                  <p>Latest Activity: {op.tokenData?.dailyTokens?.date ? 
-                    new Date(op.tokenData.dailyTokens.date).toLocaleDateString() : 
+                  <p>Latest Activity: {op.tokenData?.dailyTokens?.date ?
+                    new Date(op.tokenData.dailyTokens.date).toLocaleDateString() :
                     'No activity'}</p>
                 </div>
                 <div className="mt-3 sm:mt-4 text-[#5A7863] font-medium text-xs sm:text-sm">Click to view details →</div>
