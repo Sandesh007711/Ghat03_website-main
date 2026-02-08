@@ -388,6 +388,17 @@ const Content = () => {
 
                 {/* Replace Vehicle Rate dropdown with read-only input */}
                 <div className="relative">
+                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Vehicle Rate</label>
+                  <input
+                    type="text"
+                    name="vehicleRate"
+                    value={formData.vehicleRate ? `₹${formData.vehicleRate}` : ''}
+                    className="px-4 py-3 w-full bg-[#EBF4DD] text-[#5A7863] rounded-lg border-2 border-[#90AB8B] focus:outline-none transition-all duration-300"
+                    readOnly
+                    required
+                  />
+                </div>
+                <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
                   <select
                     name="quantity"
@@ -403,18 +414,6 @@ const Content = () => {
                       </option>
                     ))}
                   </select>
-                </div>
-                <div className="relative">
-                  <label className="block text-[#3B4953] text-sm font-bold mb-2">Quantity</label>
-                  <input
-                    type="text"
-                    name="quantity"
-                    value={formData.quantity}
-                    onChange={handleInputChange}
-                    placeholder="Enter quantity (text or number)"
-                    className="px-4 py-3 w-full bg-white text-[#3B4953] rounded-lg border-2 border-[#90AB8B] focus:outline-none focus:border-[#5A7863] focus:ring-2 focus:ring-[#5A7863] transition-all duration-300"
-                    required
-                  />
                 </div>
                 <div className="relative">
                   <label className="block text-[#3B4953] text-sm font-bold mb-2">Route</label>
